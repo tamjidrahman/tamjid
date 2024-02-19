@@ -18,24 +18,26 @@ import {
 const projects: { title: string; href: string; description: string }[] = [
   {
     title: "Projects",
-    href: "/projects",
+    href: "/",
     description:
       "...Coming soon!",
   }
 ]
 
-const blogPosts: { title: string; href: string; description: string }[] = [
+const blogPosts: { title: string; tags:string[], href: string; description: string }[] = [
   {
-    title: "Blog",
-    href: "/blog",
+    title: "On Red Gates",
+    tags: ["Management"],
+    href: "/",
     description:
       "...Coming soon!",
   },
   {
     title: "Read More!",
-    href: "/blog",
+    tags: [],
+    href: "/",
     description:
-      "",
+      "...Coming soon!",
   }
 ]
 
@@ -63,10 +65,10 @@ export function TopNavBar() {
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/docs/installation" title="Mission Statement">
-                How I'm trying to do right-er things
+              <ListItem href="/" title="Mission Statement">
+                ... Coming Soon!
               </ListItem>
-              <ListItem href="/blog/readme" title="My README">
+              <ListItem href="/" title="My README">
                 For the discerning
               </ListItem>
               <ListItem href="https://tidycal.com/tamjidarrahman/coffee" title="Coffee Chat!">
@@ -100,6 +102,7 @@ export function TopNavBar() {
                   key={component.title}
                   title={component.title}
                   href={component.href}
+                  tags={component.tags}
                 >
                   {component.description}
                 </ListItem>
@@ -114,8 +117,8 @@ export function TopNavBar() {
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<"a"> & { tags?: string[] }
+>(({ className, title, children, tags = [], ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
@@ -131,6 +134,14 @@ const ListItem = React.forwardRef<
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
+          {/* Render tags */}
+          <div className="mt-2">
+            {tags.map((tag, index) => (
+              <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2">
+                {tag}
+              </span>
+            ))}
+          </div>
         </a>
       </NavigationMenuLink>
     </li>
