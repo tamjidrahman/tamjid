@@ -17,7 +17,7 @@ export function SocialMediaIcons() {
       </a>
       <a
         target="_blank"
-        href="https://linkedin.com/tamjidrahman"
+        href="https://linkedin.com/in/tamjidrahman"
         rel="noopener noreferrer"
         aria-label="Linkedin"
         className="rounded p-2 text-xl hover:bg-accent hover:text-accent-foreground"
