@@ -1,5 +1,5 @@
 # Base on offical NGINX Alpine image
-FROM nginx:alpine
+FROM --platform=linux/amd64 nginx:alpine
 
 # Remove any existing config files
 RUN rm /etc/nginx/conf.d/*
