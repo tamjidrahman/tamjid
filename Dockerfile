@@ -14,7 +14,7 @@ COPY ./package*.json ./
 RUN npm install --omit=dev
 
 # Copy all files
-COPY ./ ./
+COPY . /usr/app
 
 # Build app
 RUN npm run build
