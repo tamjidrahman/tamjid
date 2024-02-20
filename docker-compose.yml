@@ -1,9 +1,9 @@
 version: '3'
 services:
   nextjs:
-    build: ./
+    build: .
   nginx:
-    build: 217089594100.dkr.ecr.us-east-2.amazonaws.com/tamjid-app-nginx:latest
+    build: nginx/.
     ports:
       - 80:80
     links:
