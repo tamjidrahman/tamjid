@@ -3,7 +3,7 @@ services:
   nextjs:
     build: ./
   nginx:
-    build: ./nginx
+    build: 217089594100.dkr.ecr.us-east-2.amazonaws.com/tamjid-app-nginx:latest
     ports:
       - 80:80
     links:
