@@ -3,7 +3,7 @@
     "containerDefinitions": [
         {
             "name": "next",
-            "image": "217089594100.dkr.ecr.us-east-2.amazonaws.com/tamjid-app:f04ffb2f40aa043a2749723c8922861f44099c9b",
+            "image": "217089594100.dkr.ecr.us-east-2.amazonaws.com/tamjid-app:1d6d6fe6b4a0bacc1365e4be44c723d13a656075",
             "cpu": 0,
             "portMappings": [
                 {
@@ -14,7 +14,7 @@
                     "appProtocol": "http"
                 }
             ],
-            "essential": false,
+            "essential": true,
             "environment": [],
             "mountPoints": [],
             "volumesFrom": [],
@@ -28,31 +28,6 @@
                 },
                 "secretOptions": []
             }
-        },
-        {
-            "name": "nginx",
-            "image": "217089594100.dkr.ecr.us-east-2.amazonaws.com/tamjid-app-nginx:latest",
-            "cpu": 0,
-            "portMappings": [
-                {
-                    "name": "nginx-80-tcp",
-                    "containerPort": 80,
-                    "hostPort": 80,
-                    "protocol": "tcp",
-                    "appProtocol": "http"
-                }
-            ],
-            "essential": true,
-            "environment": [],
-            "environmentFiles": [],
-            "mountPoints": [],
-            "volumesFrom": [],
-            "dependsOn": [
-                {
-                    "containerName": "next",
-                    "condition": "COMPLETE"
-                }
-            ]
         }
     ],
     "taskRoleArn": "arn:aws:iam::217089594100:role/ecsTaskExecutionRole",
