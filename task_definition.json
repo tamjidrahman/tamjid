@@ -3,16 +3,9 @@
     "containerDefinitions": [
         {
             "name": "next",
-            "image": "217089594100.dkr.ecr.us-east-2.amazonaws.com/tamjid-app:973cb3714dce2c34cf45c7b0cb3b8538a4ddcb54",
+            "image": "217089594100.dkr.ecr.us-east-2.amazonaws.com/tamjid-app:f04ffb2f40aa043a2749723c8922861f44099c9b",
             "cpu": 0,
             "portMappings": [
-                {
-                    "name": "next-80-tcp",
-                    "containerPort": 80,
-                    "hostPort": 80,
-                    "protocol": "tcp",
-                    "appProtocol": "http"
-                },
                 {
                     "name": "next-3000-tcp",
                     "containerPort": 3000,
@@ -21,12 +14,10 @@
                     "appProtocol": "http"
                 }
             ],
-            "essential": true,
+            "essential": false,
             "environment": [],
-            "environmentFiles": [],
             "mountPoints": [],
             "volumesFrom": [],
-            "ulimits": [],
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
@@ -37,6 +28,31 @@
                 },
                 "secretOptions": []
             }
+        },
+        {
+            "name": "nginx",
+            "image": "217089594100.dkr.ecr.us-east-2.amazonaws.com/tamjid-app-nginx:latest",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "nginx-80-tcp",
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "dependsOn": [
+                {
+                    "containerName": "next",
+                    "condition": "COMPLETE"
+                }
+            ]
         }
     ],
     "taskRoleArn": "arn:aws:iam::217089594100:role/ecsTaskExecutionRole",
