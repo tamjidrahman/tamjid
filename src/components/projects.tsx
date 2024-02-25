@@ -11,5 +11,11 @@ export const projects: { title: string; tags: string[]; href: string; descriptio
     tags: ["Coming Soon!"],
     href: "/",
     description: "docker for MD simulations",
-  }
+  },
+  {
+    title: "LetterBox Solver",
+    tags: ["Games"],
+    href: "https://github.com/tamjidrahman/letterboxsolver",
+    description: "solve it once and for all",
+  },
 ];
