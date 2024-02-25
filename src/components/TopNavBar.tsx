@@ -14,33 +14,8 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-
-const projects: { title: string; tags: string[], href: string; description: string }[] = [
-  {
-    title: "ZQL",
-    tags: ["memes"],
-    href: "https://genzql.com",
-    description:
-      "it's giving SQL for GenZ",
-  }
-]
-
-const blogPosts: { title: string; tags:string[], href: string; description: string }[] = [
-  {
-    title: "On Red Gates",
-    tags: ["Management"],
-    href: "/",
-    description:
-      "...Coming soon!",
-  },
-  {
-    title: "Read More!",
-    tags: [],
-    href: "/",
-    description:
-      "...Coming soon!",
-  }
-]
+import { projects } from "./projects"
+import { blogPosts } from "./blogPosts"
 
 export function TopNavBar() {
   return (
