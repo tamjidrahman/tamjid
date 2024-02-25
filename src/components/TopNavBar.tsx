@@ -1,10 +1,9 @@
-"use client"
+"use client";
 
+import * as React from "react";
+import Link from "next/link";
 
-import * as React from "react"
-import Link from "next/link"
-
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,9 +12,9 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
-import { projects } from "./projects"
-import { blogPosts } from "./blogPosts"
+} from "@/components/ui/navigation-menu";
+import { projects } from "./projects";
+import { blogPosts } from "./blogPosts";
 
 export function TopNavBar() {
   return (
@@ -35,8 +34,8 @@ export function TopNavBar() {
                       Tamjid Rahman
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      I'm a Software Engineering Manager at Nuna.
-                      I live in Cambridge, MA
+                      I'm a Software Engineering Manager at Nuna. I live in
+                      Cambridge, MA
                     </p>
                   </a>
                 </NavigationMenuLink>
@@ -47,7 +46,10 @@ export function TopNavBar() {
               <ListItem href="/" title="My README">
                 For the discerning
               </ListItem>
-              <ListItem href="https://tidycal.com/tamjidarrahman/coffee" title="Coffee Chat!">
+              <ListItem
+                href="https://tidycal.com/tamjidarrahman/coffee"
+                title="Coffee Chat!"
+              >
                 For the eager
               </ListItem>
             </ul>
@@ -71,7 +73,7 @@ export function TopNavBar() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-        <NavigationMenuTrigger>Blog</NavigationMenuTrigger>
+          <NavigationMenuTrigger>Blog</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid md:w-[400px] lg:w-[500px] gap-3 p-4 md:grid-cols-2">
               {blogPosts.map((component) => (
@@ -89,7 +91,7 @@ export function TopNavBar() {
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
-  )
+  );
 }
 
 const ListItem = React.forwardRef<
@@ -114,7 +116,10 @@ const ListItem = React.forwardRef<
           {/* Render tags */}
           <div className="mt-2">
             {tags.map((tag, index) => (
-              <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2">
+              <span
+                key={index}
+                className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2"
+              >
                 {tag}
               </span>
             ))}
@@ -122,6 +127,6 @@ const ListItem = React.forwardRef<
         </a>
       </NavigationMenuLink>
     </li>
-  )
-})
-ListItem.displayName = "ListItem"
+  );
+});
+ListItem.displayName = "ListItem";

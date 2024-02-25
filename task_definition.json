@@ -1,77 +1,74 @@
 {
-    "family": "tamjid-app",
-    "containerDefinitions": [
+  "family": "tamjid-app",
+  "containerDefinitions": [
+    {
+      "name": "nextjs",
+      "image": "217089594100.dkr.ecr.us-east-2.amazonaws.com/tamjid-app:357abe362fa7d73fb022b57e5c8e07ae3b4b4b47",
+      "cpu": 0,
+      "portMappings": [
         {
-            "name": "nextjs",
-            "image": "217089594100.dkr.ecr.us-east-2.amazonaws.com/tamjid-app:357abe362fa7d73fb022b57e5c8e07ae3b4b4b47",
-            "cpu": 0,
-            "portMappings": [
-                {
-                    "name": "nextjs-3000-tcp",
-                    "containerPort": 3000,
-                    "hostPort": 3000,
-                    "protocol": "tcp",
-                    "appProtocol": "http"
-                }
-            ],
-            "essential": true,
-            "environment": [],
-            "environmentFiles": [],
-            "mountPoints": [],
-            "volumesFrom": [],
-            "ulimits": [],
-            "logConfiguration": {
-                "logDriver": "awslogs",
-                "options": {
-                    "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/tamjid-app",
-                    "awslogs-region": "us-east-2",
-                    "awslogs-stream-prefix": "ecs"
-                },
-                "secretOptions": []
-            }
-        },
-        {
-            "name": "nginx",
-            "image": "217089594100.dkr.ecr.us-east-2.amazonaws.com/tamjid-app-nginx:latest",
-            "cpu": 0,
-            "portMappings": [
-                {
-                    "name": "nginx-80-tcp",
-                    "containerPort": 80,
-                    "hostPort": 80,
-                    "protocol": "tcp",
-                    "appProtocol": "http"
-                }
-            ],
-            "essential": true,
-            "environment": [],
-            "environmentFiles": [],
-            "mountPoints": [],
-            "volumesFrom": [],
-            "logConfiguration": {
-                "logDriver": "awslogs",
-                "options": {
-                    "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/tamjid-app",
-                    "awslogs-region": "us-east-2",
-                    "awslogs-stream-prefix": "ecs"
-                },
-                "secretOptions": []
-            }
+          "name": "nextjs-3000-tcp",
+          "containerPort": 3000,
+          "hostPort": 3000,
+          "protocol": "tcp",
+          "appProtocol": "http"
         }
-    ],
-    "taskRoleArn": "arn:aws:iam::217089594100:role/ecsTaskExecutionRole",
-    "executionRoleArn": "arn:aws:iam::217089594100:role/ecsTaskExecutionRole",
-    "networkMode": "awsvpc",
-    "requiresCompatibilities": [
-        "EC2",
-        "FARGATE"
-    ],
-    "cpu": "1024",
-    "memory": "3072",
-    "runtimePlatform": {
-        "cpuArchitecture": "X86_64",
-        "operatingSystemFamily": "LINUX"
+      ],
+      "essential": true,
+      "environment": [],
+      "environmentFiles": [],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "ulimits": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "/ecs/tamjid-app",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      }
+    },
+    {
+      "name": "nginx",
+      "image": "217089594100.dkr.ecr.us-east-2.amazonaws.com/tamjid-app-nginx:latest",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "name": "nginx-80-tcp",
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": true,
+      "environment": [],
+      "environmentFiles": [],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "/ecs/tamjid-app",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      }
     }
+  ],
+  "taskRoleArn": "arn:aws:iam::217089594100:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::217089594100:role/ecsTaskExecutionRole",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["EC2", "FARGATE"],
+  "cpu": "1024",
+  "memory": "3072",
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  }
 }

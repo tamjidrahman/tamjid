@@ -1,7 +1,6 @@
-import { Mail, GithubIcon,  LinkedinIcon} from "lucide-react"
-import { FaGithub, FaLinkedin } from "react-icons/fa"
+import { Mail, GithubIcon, LinkedinIcon } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
-
 
 export function SocialMediaIcons() {
   return (
@@ -31,8 +30,8 @@ export function SocialMediaIcons() {
         aria-label="Linkedin"
         className="rounded p-2 text-xl hover:bg-accent hover:text-accent-foreground"
       >
-      <IoMdMail/>
+        <IoMdMail />
       </a>
     </div>
-  )
+  );
 }

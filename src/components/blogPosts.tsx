@@ -1,5 +1,10 @@
 "use client";
-export const blogPosts: { title: string; tags: string[]; href: string; description: string; }[] = [
+export const blogPosts: {
+  title: string;
+  tags: string[];
+  href: string;
+  description: string;
+}[] = [
   {
     title: "On Red Gates",
     tags: ["Management"],
@@ -11,5 +16,5 @@ export const blogPosts: { title: string; tags: string[]; href: string; descripti
     tags: [],
     href: "/",
     description: "...Coming soon!",
-  }
+  },
 ];

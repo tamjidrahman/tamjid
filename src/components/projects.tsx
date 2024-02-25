@@ -1,5 +1,10 @@
 "use client";
-export const projects: { title: string; tags: string[]; href: string; description: string; }[] = [
+export const projects: {
+  title: string;
+  tags: string[];
+  href: string;
+  description: string;
+}[] = [
   {
     title: "ZQL",
     tags: ["memes"],
