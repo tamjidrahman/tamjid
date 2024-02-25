@@ -9,7 +9,7 @@ export const projects: { title: string; tags: string[]; href: string; descriptio
   {
     title: "lammplighter",
     tags: ["Coming Soon!"],
-    href: "/",
+    href: "https://github.com/tamjidrahman/lammplighter",
     description: "docker for MD simulations",
   },
   {
