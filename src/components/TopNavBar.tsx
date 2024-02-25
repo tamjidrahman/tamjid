@@ -15,12 +15,13 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 
-const projects: { title: string; href: string; description: string }[] = [
+const projects: { title: string; tags: string[], href: string; description: string }[] = [
   {
-    title: "Projects",
-    href: "/",
+    title: "ZQL",
+    tags: ["memes"],
+    href: "https://genzql.com",
     description:
-      "...Coming soon!",
+      "it's giving SQL for GenZ",
   }
 ]
 
@@ -86,6 +87,7 @@ export function TopNavBar() {
                   key={component.title}
                   title={component.title}
                   href={component.href}
+                  tags={component.tags}
                 >
                   {component.description}
                 </ListItem>
