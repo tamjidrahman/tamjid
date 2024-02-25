@@ -34,8 +34,9 @@ export function TopNavBar() {
                       Tamjid Rahman
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      I'm a Software Engineering Manager at Nuna. I live in
-                      Cambridge, MA
+                      {
+                        "I'm a Software Engineering Manager at Nuna. I live in Cambridge, MA"
+                      }
                     </p>
                   </a>
                 </NavigationMenuLink>
