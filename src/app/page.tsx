@@ -10,10 +10,21 @@ import Link from "next/link"
 import { TopNavBar } from "@/components/TopNavBar"
 import { ModeToggle } from "@/components/mode-toggle"
 import { SocialMediaIcons } from "@/social-media-icons"
+import Head from "next/head"
 
 export default function Home() {
   return (
     <div>
+      <Head>
+        <title>
+          Tamjid Rahman
+        </title>
+        <meta
+          name="description"
+          content="I'm a Software Engineering Manager in Cambridge, MA"
+          key="desc"
+        />
+      </Head>
       <div className="flex justify-center mt-20">
           <h1 className="text-5xl">Tamjid Rahman</h1>
       </div>
