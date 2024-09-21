@@ -19,7 +19,7 @@ export default function Home() {
         />
       </Head>
       <div className="flex justify-center mt-20">
-        <h1 className="text-5xl text-primary">👋, I'm Tamjid</h1>
+        <h1 className="text-5xl text-primary">👋, I&apos;m Tamjid</h1>
       </div>
       <div className="flex justify-center">
         <SocialMediaIcons />
