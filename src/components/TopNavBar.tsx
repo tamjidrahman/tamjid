@@ -30,26 +30,31 @@ export function TopNavBar() {
                     className="flex h-full w-full select-none flex-col justify-center rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                     href="/"
                   >
-                    <div className="mb-2 mt-4 text-lg font-medium">
+                    <div className="mb-2 mt-4 text-lg font-medium text-secondary">
                       Tamjid Rahman
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
                       {
-                        "I'm a Software Engineering Manager at Nuna. I live in Cambridge, MA"
+                        "I'm a Software Engineering Manager. I live in Cambridge, MA"
                       }
                     </p>
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/" title="Mission Statement">
+              <ListItem
+                href="/"
+                title="Mission Statement"
+                className="text-secondary"
+              >
                 ... Coming Soon!
               </ListItem>
-              <ListItem href="/" title="My README">
+              <ListItem href="/" title="My README" className="text-secondary">
                 For the discerning
               </ListItem>
               <ListItem
                 href="https://tidycal.com/tamjidarrahman/coffee"
                 title="Coffee Chat!"
+                className="text-secondary"
               >
                 For the eager
               </ListItem>
@@ -106,7 +111,7 @@ const ListItem = React.forwardRef<
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
+            className,
           )}
           {...props}
         >

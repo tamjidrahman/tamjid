@@ -4,65 +4,65 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 40 15% 40%; /* Gruvbox light background */
+    --foreground: 40 30% 12%; /* Gruvbox dark foreground */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 40 15% 93%;
+    --card-foreground: 40 30% 12%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 40 15% 93%;
+    --popover-foreground: 40 30% 12%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 40 100% 47%; /* Gruvbox yellow */
+    --primary-foreground: 40 15% 93%; /* Gruvbox light background */
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 29 66% 44%; /* Gruvbox orange */
+    --secondary-foreground: 40 30% 12%; /* Gruvbox dark foreground */
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 40 30% 85%; /* Gruvbox light gray */
+    --muted-foreground: 40 30% 35%; /* Gruvbox dark gray */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 140 55% 45%; /* Gruvbox green */
+    --accent-foreground: 40 15% 93%; /* Gruvbox light background */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 60% 45%; /* Gruvbox red */
+    --destructive-foreground: 40 15% 93%; /* Gruvbox light background */
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 40 30% 75%; /* Gruvbox light gray */
+    --input: 40 30% 75%; /* Gruvbox light gray */
+    --ring: 40 30% 35%; /* Gruvbox dark gray */
 
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 40 15% 12%; /* Gruvbox dark background */
+    --foreground: 40 30% 55%; /* Gruvbox light foreground */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 40 15% 12%;
+    --card-foreground: 40 30% 85%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 40 15% 12%;
+    --popover-foreground: 40 30% 85%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 40 100% 47%; /* Gruvbox yellow */
+    --primary-foreground: 40 15% 12%; /* Gruvbox dark background */
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 29 66% 44%; /* Gruvbox orange */
+    --secondary-foreground: 40 15% 12%; /* Gruvbox dark background */
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 40 15% 25%; /* Gruvbox dark gray */
+    --muted-foreground: 40 30% 75%; /* Gruvbox light gray */
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 140 55% 35%; /* Gruvbox green */
+    --accent-foreground: 40 15% 12%; /* Gruvbox dark background */
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 60% 45%; /* Gruvbox red */
+    --destructive-foreground: 40 15% 12%; /* Gruvbox dark background */
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 40 15% 25%; /* Gruvbox dark gray */
+    --input: 40 15% 25%; /* Gruvbox dark gray */
+    --ring: 40 30% 35%; /* Gruvbox light gray */
   }
 }
 
