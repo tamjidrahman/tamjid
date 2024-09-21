@@ -64,7 +64,7 @@ export function TopNavBar() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Projects</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid md:w-[400px] lg:w-[500px] gap-3 p-4 md:grid-cols-2">
+            <ul className="grid md:w-[400px] lg:w-[500px] text-secondary gap-3 p-4 md:grid-cols-2">
               {projects.map((component) => (
                 <ListItem
                   key={component.title}
@@ -81,7 +81,7 @@ export function TopNavBar() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Blog</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid md:w-[400px] lg:w-[500px] gap-3 p-4 md:grid-cols-2">
+            <ul className="grid md:w-[400px] lg:w-[500px] text-secondary gap-3 p-4 md:grid-cols-2">
               {blogPosts.map((component) => (
                 <ListItem
                   key={component.title}
