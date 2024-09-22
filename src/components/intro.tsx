@@ -1,4 +1,5 @@
 import Bunny from "@/components/bunny";
+import TextLink from "@/components/text/text-link";
 
 export default function Intro() {
   return (
@@ -7,12 +8,11 @@ export default function Intro() {
         <p className="max-w-[88ch]">
           <span className="text-primary">Welcome!</span> I&apos;m a software
           engineering manager in Cambridge, MA. I currently work at{" "}
-          <a className="text-accent" href="https://www.nuna.com">
-            Nuna
-          </a>{" "}
-          where I lead a full-stack engineering team. I&apos;ll use this site to
-          post my thoughts on coding adventures, management, and personal
-          milestones.
+          <TextLink href="https://www.nuna.com">Nuna</TextLink> where I lead a
+          full-stack engineering team. Check in to see my{" "}
+          <TextLink href="/projects">coding adventures</TextLink>, thoughts on{" "}
+          <TextLink href="/posts">management</TextLink>, and{" "}
+          <TextLink href="/posts">personal milestones</TextLink>.
         </p>
       </div>
       <Bunny />

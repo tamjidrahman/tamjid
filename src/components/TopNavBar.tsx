@@ -79,7 +79,24 @@ export function TopNavBar() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Blog</NavigationMenuTrigger>
+          <NavigationMenuTrigger>Management</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid md:w-[400px] lg:w-[500px] text-secondary gap-3 p-4 md:grid-cols-2">
+              {blogPosts.map((component) => (
+                <ListItem
+                  key={component.title}
+                  title={component.title}
+                  href={component.href}
+                  tags={component.tags}
+                >
+                  {component.description}
+                </ListItem>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Etc</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid md:w-[400px] lg:w-[500px] text-secondary gap-3 p-4 md:grid-cols-2">
               {blogPosts.map((component) => (
