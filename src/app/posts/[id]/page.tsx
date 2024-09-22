@@ -23,6 +23,9 @@ export default function PostPage({ params }: PostPageProps) {
 
   // Fetch post data based on the `id` parameter
   const post = posts.find((post) => post.id === id);
+  if (!post) {
+    return <div>Post not found</div>;
+  }
 
   return (
     <div>
