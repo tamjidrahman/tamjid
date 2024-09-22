@@ -10,7 +10,7 @@ export function SocialMediaIcons() {
         href="https://github.com/tamjidrahman"
         rel="noopener noreferrer"
         aria-label="Github"
-        className="rounded p-2 text-xl hover:bg-accent hover:text-accent-foreground"
+        className="rounded p-2 text-xl text-secondary hover:bg-accent hover:text-accent-foreground"
       >
         <FaGithub />
       </a>
@@ -19,7 +19,7 @@ export function SocialMediaIcons() {
         href="https://linkedin.com/in/tamjidrahman"
         rel="noopener noreferrer"
         aria-label="Linkedin"
-        className="rounded p-2 text-xl hover:bg-accent hover:text-accent-foreground"
+        className="rounded p-2 text-xl text-secondary hover:bg-accent hover:text-accent-foreground"
       >
         <FaLinkedin />
       </a>
@@ -28,7 +28,7 @@ export function SocialMediaIcons() {
         href="mailto:tamjidarrahman@gmail.com"
         rel="noopener noreferrer"
         aria-label="Linkedin"
-        className="rounded p-2 text-xl hover:bg-accent hover:text-accent-foreground"
+        className="rounded p-2 text-xl text-secondary hover:bg-accent hover:text-accent-foreground"
       >
         <IoMdMail />
       </a>
