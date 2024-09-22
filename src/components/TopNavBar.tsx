@@ -14,7 +14,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { projects } from "./projects";
-import { blogPosts } from "./blogPosts";
+import { posts } from "./Posts";
 
 export function TopNavBar() {
   return (
@@ -82,16 +82,19 @@ export function TopNavBar() {
           <NavigationMenuTrigger>Management</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid md:w-[400px] lg:w-[500px] text-primary gap-3 p-4 md:grid-cols-2">
-              {blogPosts.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                  tags={component.tags}
-                >
-                  {component.description}
-                </ListItem>
-              ))}
+              {posts.map(
+                (post) =>
+                  post.tags.includes("management") && (
+                    <ListItem
+                      key={post.title}
+                      title={post.title}
+                      href={`/posts/${post.id}`}
+                      tags={post.tags}
+                    >
+                      {post.description}
+                    </ListItem>
+                  ),
+              )}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -99,14 +102,14 @@ export function TopNavBar() {
           <NavigationMenuTrigger>Etc</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid md:w-[400px] lg:w-[500px] text-primary gap-3 p-4 md:grid-cols-2">
-              {blogPosts.map((component) => (
+              {posts.map((post) => (
                 <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                  tags={component.tags}
+                  key={post.title}
+                  title={post.title}
+                  href={`/posts/${post.id}`}
+                  tags={post.tags}
                 >
-                  {component.description}
+                  {post.description}
                 </ListItem>
               ))}
             </ul>

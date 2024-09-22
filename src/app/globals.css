@@ -55,7 +55,7 @@
     --muted: 40 15% 25%; /* Gruvbox dark gray */
     --muted-foreground: 40 30% 75%; /* Gruvbox light gray */
 
-    --accent: 140 55% 45%; /* Gruvbox green */
+    --accent: 140 55% 35%; /* Gruvbox green */
     --accent-foreground: 40 15% 12%; /* Gruvbox dark background */
 
     --destructive: 0 60% 45%; /* Gruvbox red */
