@@ -5,7 +5,7 @@ import * as React from "react";
 import { TopNavBar } from "@/components/TopNavBar";
 import { ModeToggle } from "@/components/mode-toggle";
 import { SocialMediaIcons } from "@/social-media-icons";
-import Bunny from "@/components/bunny";
+import Intro from "@/components/intro";
 import Head from "next/head";
 
 export default function Home() {
@@ -28,7 +28,7 @@ export default function Home() {
       <div className="flex justify-center mt-10">
         <TopNavBar />
       </div>
-      <Bunny />
+      <Intro />
       <div className="flex justify-center mt-40">
         <ModeToggle />
       </div>
