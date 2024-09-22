@@ -30,7 +30,7 @@ export function TopNavBar() {
                     className="flex h-full w-full select-none flex-col justify-center rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                     href="/"
                   >
-                    <div className="mb-2 mt-4 text-lg font-medium text-secondary">
+                    <div className="mb-2 mt-4 text-lg font-medium text-primary">
                       Tamjid Rahman
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
@@ -44,17 +44,17 @@ export function TopNavBar() {
               <ListItem
                 href="/"
                 title="Mission Statement"
-                className="text-secondary"
+                className="text-primary"
               >
                 ... Coming Soon!
               </ListItem>
-              <ListItem href="/" title="My README" className="text-secondary">
+              <ListItem href="/" title="My README" className="text-primary">
                 For the discerning
               </ListItem>
               <ListItem
                 href="https://tidycal.com/tamjidarrahman/coffee"
                 title="Coffee Chat!"
-                className="text-secondary"
+                className="text-primary"
               >
                 For the eager
               </ListItem>
@@ -64,7 +64,7 @@ export function TopNavBar() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Projects</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid md:w-[400px] lg:w-[500px] text-secondary gap-3 p-4 md:grid-cols-2">
+            <ul className="grid md:w-[400px] lg:w-[500px] text-primary gap-3 p-4 md:grid-cols-2">
               {projects.map((component) => (
                 <ListItem
                   key={component.title}
@@ -81,7 +81,7 @@ export function TopNavBar() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Management</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid md:w-[400px] lg:w-[500px] text-secondary gap-3 p-4 md:grid-cols-2">
+            <ul className="grid md:w-[400px] lg:w-[500px] text-primary gap-3 p-4 md:grid-cols-2">
               {blogPosts.map((component) => (
                 <ListItem
                   key={component.title}
@@ -98,7 +98,7 @@ export function TopNavBar() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Etc</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid md:w-[400px] lg:w-[500px] text-secondary gap-3 p-4 md:grid-cols-2">
+            <ul className="grid md:w-[400px] lg:w-[500px] text-primary gap-3 p-4 md:grid-cols-2">
               {blogPosts.map((component) => (
                 <ListItem
                   key={component.title}
