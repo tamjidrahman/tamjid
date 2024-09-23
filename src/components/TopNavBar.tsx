@@ -131,7 +131,6 @@ export function TopNavBar() {
                 title="See More!"
                 className="text-primary"
               ></ListItem>
-              ,
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
