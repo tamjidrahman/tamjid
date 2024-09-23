@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -12,15 +13,31 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 import { Post } from "@/components/Posts";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-const PreviewablePostCard: React.FC<{ post: Post; isExpanded: boolean }> = ({
-  post,
-  isExpanded,
-}) => {
+const PreviewablePostCard: React.FC<{
+  post: Post;
+  isExpanded: boolean;
+  updateSelectedTags: (tags: string[]) => void;
+}> = ({ post, isExpanded, updateSelectedTags }) => {
+  // Since we're nesting interactive components (the badge), we need to prevent the outer link from being triggered
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const router = useRouter();
+
   const formattedDate = new Intl.DateTimeFormat("en-CA", {
     year: "numeric",
     month: "long",
   }).format(post.date);
+
+  const handleNestedTagClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.stopPropagation(); // Prevents the outer link from being triggered
+  };
 
   const textCutOff = isExpanded ? 150 : 20;
   return (
@@ -31,14 +48,14 @@ const PreviewablePostCard: React.FC<{ post: Post; isExpanded: boolean }> = ({
         <CardHeader>
           <CardTitle className="text-primary">{post.title}</CardTitle>
           <div className="space-x-1">
-            {post.tags.map(
-              (tag) =>
-                tag && (
-                  <Badge key={tag} className="w-min">
-                    {tag}
-                  </Badge>
-                ),
-            )}
+            {isClient &&
+              post.tags.map((tag) => (
+                <Link href={`/posts/?tag=${tag}`} key={tag} legacyBehavior>
+                  <a onClick={() => updateSelectedTags([tag])}>
+                    <Badge key={tag}>{tag}</Badge>
+                  </a>
+                </Link>
+              ))}
           </div>
           <CardDescription className="text-secondary">
             {post.description}

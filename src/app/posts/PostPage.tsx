@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import PreviewablePostCard from "./postCard";
@@ -13,8 +13,11 @@ import { Button } from "@/components/ui/button";
 
 export default function PostPage() {
   const router = useRouter();
-  const setTagsStr: string | null = useSearchParams().get("tag");
-  const setTags = setTagsStr ? setTagsStr.split(",") : [];
+  const searchParams = useSearchParams();
+  const initialTagsStr: string = searchParams.get("tag") || "";
+  const initialTags = initialTagsStr.split(",");
+  const initialSearchTerm: string | null =
+    useSearchParams().get("search") || "";
   const [isHovered, setIsHovered] = useState("");
   const allUniqueTags = posts.reduce((acc: string[], post) => {
     post.tags.forEach((tag) => {
@@ -29,12 +32,26 @@ export default function PostPage() {
     label: tag,
     value: tag,
   }));
+
   const [selectedTags, setSelectedTags] = useState<Option[]>(
-    (setTags.map((tag) => ({
+    (initialTags.map((tag) => ({
       label: tag,
       value: tag,
     })) as Option[]) || [],
   );
+
+  useEffect(() => {
+    const newTagsStr: string = searchParams.get("tag") || "";
+    const newTags = newTagsStr.split(",");
+    setSelectedTags(
+      newTags.map((tag) => ({
+        label: tag,
+        value: tag,
+      })) as Option[],
+    );
+    const newSearchTerm: string | null = searchParams.get("search");
+    setSearchTerm(newSearchTerm);
+  }, [searchParams]);
 
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
@@ -58,7 +75,7 @@ export default function PostPage() {
 
     setSelectedTags(tagOptions);
     setSearchTerm(searchTerm);
-    router.push(finalUrl);
+    router.replace(finalUrl);
   };
 
   const handleTagUpdate = (tagOptions: Option[]) => {
@@ -141,6 +158,14 @@ export default function PostPage() {
                     key={post.id}
                     post={post}
                     isExpanded={isHovered == post.id}
+                    updateSelectedTags={(tags: string[]) =>
+                      handleTagUpdate(
+                        tags.map((tag) => ({
+                          label: tag,
+                          value: tag,
+                        })) as Option[],
+                      )
+                    }
                   />
                 </Link>
               ),
