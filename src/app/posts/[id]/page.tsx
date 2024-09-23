@@ -1,4 +1,6 @@
+import { TopNavBar } from "@/components/TopNavBar";
 import { posts } from "@/components/Posts";
+import TextLink from "@/components/text/text-link";
 // This function will be called to generate the path dynamically
 interface PostPageProps {
   params: {
@@ -28,11 +30,22 @@ export default function PostPage({ params }: PostPageProps) {
     return <div>Post not found</div>;
   }
 
+  const formattedDate = new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "long",
+  }).format(post.date);
+
   return (
     <div>
-      <h1>Post ID: {post.id}</h1>
-      <h2>{post.title}</h2>
-      <p>{post.body}</p>
+      <div className="flex justify-center mt-10">
+        <TopNavBar />
+      </div>
+
+      <div className="flex flex-col mt-20 mx-auto max-w-4xl text-left">
+        <h1 className="text-primary text-4xl">{post.title}</h1>
+        <h2 className="text-accent mt-2">{formattedDate}</h2>
+        <p className="max-w-[88ch] py-10">{post.body}</p>
+      </div>
     </div>
   );
 }

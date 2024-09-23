@@ -4,7 +4,7 @@ import TextLink from "@/components/text/text-link";
 export default function Intro() {
   return (
     <>
-      <div className="flex flex-col justify-center items-center mt-20 text-center">
+      <div className="flex flex-col justify-center items-center mt-20 text-left">
         <p className="max-w-[88ch]">
           <span className="text-primary">Welcome!</span> I&apos;m a software
           engineering manager in Cambridge, MA. I currently work at{" "}

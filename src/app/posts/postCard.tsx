@@ -9,16 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { useState } from "react";
-
-export interface Post {
-  id: string;
-  title: string;
-  description: string;
-  body: string;
-  date: Date;
-  tags: string[];
-}
+import { Post } from "@/components/Posts";
 
 const PreviewablePostCard: React.FC<{ post: Post; isExpanded: boolean }> = ({
   post,
