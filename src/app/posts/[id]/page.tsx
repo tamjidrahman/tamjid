@@ -31,26 +31,18 @@ export default function PostPage({ params }: PostPageProps) {
   }).format(post.date);
 
   return (
-    <div>
-      <div className="flex flex-col mt-20 mx-auto max-w-4xl text-left">
-        <div className="py-10">
-          <TextLink href="/posts">Posts</TextLink> /{" "}
-          <a className="text-primary hover:underline" href={post.id}>
-            {post.title}
+    <>
+      <h1 className="text-primary text-4xl">{post.title}</h1>
+      <div className="space-x-1">
+        {post.tags.map((tag) => (
+          <a href={`/posts/?tag=${tag}`} key={tag}>
+            <Badge key={tag}>{tag}</Badge>
           </a>
-        </div>
-        <h1 className="text-primary text-4xl">{post.title}</h1>
-        <div className="space-x-1">
-          {post.tags.map((tag) => (
-            <a href={`/posts/?tag=${tag}`} key={tag}>
-              <Badge key={tag}>{tag}</Badge>
-            </a>
-          ))}
-        </div>
-        <h2 className="text-secondary mt-2">{post.description}</h2>
-        <p className="text-accent mt-2">{formattedDate}</p>
-        <p className="max-w-[88ch] py-10">{post.body}</p>
+        ))}
       </div>
-    </div>
+      <h2 className="text-secondary mt-2">{post.description}</h2>
+      <p className="text-accent mt-2">{formattedDate}</p>
+      <p className="max-w-[88ch] py-10">{post.body}</p>
+    </>
   );
 }

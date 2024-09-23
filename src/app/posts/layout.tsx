@@ -1,10 +1,19 @@
+"use client";
 import React from "react";
 import { TopNavBar } from "@/components/TopNavBar";
+import TextLink from "@/components/text/text-link";
+
+import { usePathname } from "next/navigation";
+
 export default function PostLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathName = usePathname();
+  const isPostHomePage = pathName.endsWith("/posts");
+  const postId = pathName.split("/").pop();
+
   return (
     <>
       <section>
@@ -12,7 +21,20 @@ export default function PostLayout({
           <TopNavBar />
         </div>
       </section>
-      {children}
+
+      {isPostHomePage ? (
+        children
+      ) : (
+        <div className="flex flex-col mt-20 mx-auto max-w-4xl text-left">
+          <div className="py-10">
+            <TextLink href="/posts">posts</TextLink> /{" "}
+            <a className="text-primary hover:underline" href={postId}>
+              {postId}
+            </a>
+          </div>
+          {children}
+        </div>
+      )}
     </>
   );
 }
