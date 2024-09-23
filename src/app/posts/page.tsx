@@ -10,7 +10,14 @@ import { Input } from "@/components/ui/input";
 
 export default function DemoPage() {
   const [isHovered, setIsHovered] = useState("");
-  const allUniqueTags = [...new Set(posts.map((post) => post.tags).flat())];
+  const allUniqueTags = posts.reduce((acc: string[], post) => {
+    post.tags.forEach((tag) => {
+      if (!acc.includes(tag)) {
+        acc.push(tag);
+      }
+    });
+    return acc;
+  }, []);
 
   const tagOptions: Option[] = allUniqueTags.map((tag) => ({
     label: tag,
