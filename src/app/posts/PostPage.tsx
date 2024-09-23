@@ -100,9 +100,6 @@ export default function PostPage() {
 
   return (
     <div>
-      <div className="flex justify-center mt-10">
-        <TopNavBar />
-      </div>
       <div className="container mx-auto py-10">
         <h1 className="text-primary text-4xl text-center">Posts</h1>
         <div className="flex justify-center items-center">

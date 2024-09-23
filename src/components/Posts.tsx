@@ -15,7 +15,7 @@ export const posts: Post[] = [
     //href: "https://genzql.com",
     description: "it's giving SQL for GenZ",
     date: new Date(),
-    body: "https://genzql.com",
+    body: "genzql.html",
   },
   {
     id: "lammplighter",

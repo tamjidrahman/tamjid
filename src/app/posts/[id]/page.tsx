@@ -32,10 +32,6 @@ export default function PostPage({ params }: PostPageProps) {
 
   return (
     <div>
-      <div className="flex justify-center mt-10">
-        <TopNavBar />
-      </div>
-
       <div className="flex flex-col mt-20 mx-auto max-w-4xl text-left">
         <div className="py-10">
           <TextLink href="/posts">Posts</TextLink> /{" "}
