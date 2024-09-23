@@ -133,7 +133,14 @@ export default function PostPage() {
               {selectedTags.map((tag) => (
                 <Badge key={tag.value}>{tag.value}</Badge>
               ))}
-              {searchTerm ? " search term: " + searchTerm : ""}
+              {selectedTags.length > 0 && searchTerm && " | "}
+              {searchTerm && (
+                <>
+                  {" "}
+                  search term:{" "}
+                  <span className="text-primary">{searchTerm}</span>
+                </>
+              )}
               <Button
                 className="ml-4"
                 variant={"ghost"}
