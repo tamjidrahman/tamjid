@@ -14,10 +14,9 @@ import { Button } from "@/components/ui/button";
 export default function PostPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const initialTagsStr: string = searchParams.get("tag") || "";
-  const initialTags = initialTagsStr.split(",");
-  const initialSearchTerm: string | null =
-    useSearchParams().get("search") || "";
+  const initialTagsStr: string | null = searchParams.get("tag");
+  const initialTags = initialTagsStr ? initialTagsStr.split(",") : [];
+  const initialSearchTerm: string | null = useSearchParams().get("search");
   const [isHovered, setIsHovered] = useState("");
   const allUniqueTags = posts.reduce((acc: string[], post) => {
     post.tags.forEach((tag) => {
@@ -41,17 +40,31 @@ export default function PostPage() {
   );
 
   useEffect(() => {
-    const newTagsStr: string = searchParams.get("tag") || "";
-    const newTags = newTagsStr.split(",");
-    setSelectedTags(
-      newTags.map((tag) => ({
-        label: tag,
-        value: tag,
-      })) as Option[],
-    );
+    const newTagsStr: string | null = searchParams.get("tag");
+    const newTags = newTagsStr ? newTagsStr.split(",") : [];
+    const newTagOptions = newTags.map((tag) => ({
+      label: tag,
+      value: tag,
+    })) as Option[];
     const newSearchTerm: string | null = searchParams.get("search");
+
+    let finalUrl = `/posts`;
+    // add query params if needed
+    const tagQuery =
+      newTagOptions.length > 0
+        ? `tag=${newTagOptions.map((tag) => tag.value).join(",")}`
+        : "";
+
+    const searchQuery = newSearchTerm ? `search=${newSearchTerm}` : "";
+
+    (tagQuery || searchQuery) && (finalUrl += "?");
+
+    finalUrl += `${tagQuery}${tagQuery && searchQuery ? "&" : ""}${searchQuery}`;
+
+    setSelectedTags(newTagOptions);
     setSearchTerm(newSearchTerm);
-  }, [searchParams]);
+    router.replace(finalUrl);
+  }, [searchParams, router]);
 
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
@@ -158,14 +171,6 @@ export default function PostPage() {
                     key={post.id}
                     post={post}
                     isExpanded={isHovered == post.id}
-                    updateSelectedTags={(tags: string[]) =>
-                      handleTagUpdate(
-                        tags.map((tag) => ({
-                          label: tag,
-                          value: tag,
-                        })) as Option[],
-                      )
-                    }
                   />
                 </Link>
               ),

@@ -19,8 +19,7 @@ import { useRouter } from "next/navigation";
 const PreviewablePostCard: React.FC<{
   post: Post;
   isExpanded: boolean;
-  updateSelectedTags: (tags: string[]) => void;
-}> = ({ post, isExpanded, updateSelectedTags }) => {
+}> = ({ post, isExpanded }) => {
   // Since we're nesting interactive components (the badge), we need to prevent the outer link from being triggered
   const [isClient, setIsClient] = useState(false);
 
@@ -51,7 +50,7 @@ const PreviewablePostCard: React.FC<{
             {isClient &&
               post.tags.map((tag) => (
                 <Link href={`/posts/?tag=${tag}`} key={tag} legacyBehavior>
-                  <a onClick={() => updateSelectedTags([tag])}>
+                  <a onClick={handleNestedTagClick}>
                     <Badge key={tag}>{tag}</Badge>
                   </a>
                 </Link>
