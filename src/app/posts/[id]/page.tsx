@@ -10,12 +10,6 @@ interface PostPageProps {
 }
 
 export async function generateStaticParams() {
-  // Fetch your data here to generate static paths
-  // For example, fetch all posts IDs from an API or database
-  // const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-  // const posts = await res.json();
-
-  // combine posts and projects
   const paths = posts.map((post) => ({
     params: { id: post.id },
   }));
