@@ -43,4 +43,12 @@ export const posts: Post[] = [
     tags: ["management"],
     body: "Coming soon!",
   },
+  {
+    id: "ultimatebunny",
+    title: "Why the Ultimate Bunny?",
+    description: "For the discerning",
+    date: new Date(),
+    tags: ["memes", "personal"],
+    body: "Vinesh says I'm like the ultimate bunny. I don't disagree.",
+  },
 ];
