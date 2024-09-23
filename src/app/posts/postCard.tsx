@@ -9,6 +9,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import { Badge } from "@/components/ui/badge";
+
 import { Post } from "@/components/Posts";
 
 const PreviewablePostCard: React.FC<{ post: Post; isExpanded: boolean }> = ({
@@ -27,6 +29,16 @@ const PreviewablePostCard: React.FC<{ post: Post; isExpanded: boolean }> = ({
       <Card>
         <CardHeader>
           <CardTitle className="text-primary">{post.title}</CardTitle>
+          <div className="space-x-1">
+            {post.tags.map(
+              (tag) =>
+                tag && (
+                  <Badge key={tag} className="w-min">
+                    {tag}
+                  </Badge>
+                ),
+            )}
+          </div>
           <CardDescription className="text-secondary">
             {post.description}
           </CardDescription>
