@@ -35,7 +35,6 @@ const PreviewablePostCard: React.FC<{
     e.stopPropagation(); // Prevents the outer link from being triggered
   };
 
-  const textCutOff = isExpanded ? 150 : 20;
   return (
     <div
       className={`group overflow-hidden transition-all duration-300 ease-in-out transform`}
@@ -44,14 +43,15 @@ const PreviewablePostCard: React.FC<{
         <CardHeader>
           <CardTitle className="text-primary">{post.title}</CardTitle>
           <div className="space-x-1">
-            {isClient &&
-              post.tags.map((tag) => (
-                <Link href={`/posts/?tag=${tag}`} key={tag} legacyBehavior>
-                  <a onClick={handleNestedTagClick}>
-                    <Badge key={tag}>{tag}</Badge>
-                  </a>
-                </Link>
-              ))}
+            {isClient
+              ? post.tags.map((tag) => (
+                  <Link href={`/posts/?tag=${tag}`} key={tag} legacyBehavior>
+                    <a onClick={handleNestedTagClick}>
+                      <Badge key={tag}>{tag}</Badge>
+                    </a>
+                  </Link>
+                ))
+              : post.tags.map((tag) => <Badge key={tag}>{tag}</Badge>)}
           </div>
           <CardDescription className="text-secondary">
             {post.description}
