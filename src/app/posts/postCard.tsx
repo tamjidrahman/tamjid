@@ -22,6 +22,7 @@ const PreviewablePostCard: React.FC<{ post: Post; isExpanded: boolean }> = ({
     month: "long",
   }).format(post.date);
 
+  const textCutOff = isExpanded ? 150 : 20;
   return (
     <div
       className={`group overflow-hidden transition-all duration-300 ease-in-out transform`}
@@ -45,8 +46,8 @@ const PreviewablePostCard: React.FC<{ post: Post; isExpanded: boolean }> = ({
         </CardHeader>
         <CardContent className="p-4">
           <p>
-            {post.body.slice(0, isExpanded ? 150 : 20)}{" "}
-            {post.body.length > 80 ? "..." : ""}
+            {post.body.slice(0, textCutOff)}{" "}
+            {post.body.length > textCutOff ? "..." : ""}
           </p>
         </CardContent>
         <CardFooter className="text-accent">{formattedDate}</CardFooter>

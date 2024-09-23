@@ -42,6 +42,9 @@ export default function PostPage({ params }: PostPageProps) {
       </div>
 
       <div className="flex flex-col mt-20 mx-auto max-w-4xl text-left">
+        <div className="py-10">
+          Back to <TextLink href="/posts">Posts</TextLink>
+        </div>
         <h1 className="text-primary text-4xl">{post.title}</h1>
         <h2 className="text-accent mt-2">{formattedDate}</h2>
         <p className="max-w-[88ch] py-10">{post.body}</p>

@@ -7,8 +7,10 @@ import { TopNavBar } from "@/components/TopNavBar";
 import { posts } from "@/components/Posts";
 import MultipleSelector, { Option } from "@/components/ui/multi-selector";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
-export default function DemoPage() {
+export default function PostPage() {
   const [isHovered, setIsHovered] = useState("");
   const allUniqueTags = posts.reduce((acc: string[], post) => {
     post.tags.forEach((tag) => {
@@ -24,9 +26,11 @@ export default function DemoPage() {
     value: tag,
   }));
   const [selectedTags, setSelectedTags] = useState(tagOptions);
+  const [tagFilterIsActive, setTagFilterIsActive] = useState(false);
+
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value); // Update state with the new input value
+    setSearchTerm(event.target.value);
   };
 
   return (
@@ -35,24 +39,54 @@ export default function DemoPage() {
         <TopNavBar />
       </div>
       <div className="container mx-auto py-10">
-        <div className="flex items-center">
+        <h1 className="text-primary text-4xl text-center">Posts</h1>
+        <div className="flex justify-center items-center">
           <Input
             className="w-auto mr-4"
             onChange={handleInputChange}
-            placeholder="Search Posts..."
+            placeholder="search..."
           />
           <div className="w-auto py-10">
             <MultipleSelector
               defaultOptions={tagOptions}
-              value={selectedTags}
-              onChange={setSelectedTags}
+              value={tagFilterIsActive ? selectedTags : []}
+              onChange={(options) => {
+                if (options.length > 0) {
+                  setTagFilterIsActive(true);
+                  setSelectedTags(options);
+                } else {
+                  setTagFilterIsActive(false);
+                  setSelectedTags(tagOptions);
+                }
+              }}
+              placeholder={tagFilterIsActive ? "" : "filter tags..."}
               emptyIndicator={
                 <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
-                  no results found.
+                  thats all the tags!
                 </p>
               }
             />
           </div>
+        </div>
+        <div>
+          {tagFilterIsActive && (
+            <div className="text-destructive">
+              only showing:{" "}
+              {selectedTags.map((tag) => (
+                <Badge key={tag.value}>{tag.value}</Badge>
+              ))}
+              <Button
+                className="ml-4"
+                variant={"ghost"}
+                onClick={() => {
+                  setSelectedTags(tagOptions);
+                  setTagFilterIsActive(false);
+                }}
+              >
+                clear
+              </Button>
+            </div>
+          )}
         </div>
         <div className="grid grid-cols-3 gap-4">
           {posts.map(
