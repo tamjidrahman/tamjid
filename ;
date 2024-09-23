@@ -11,15 +11,16 @@ export default function PostLayout({
   children: React.ReactNode;
 }) {
   const pathName = usePathname();
-  const [isPostHomePage, setIsPostHomePage] = useState<boolean>(
-    pathName.endsWith("/posts"),
-  );
-  const [postId, setPostId] = useState<string>(pathName.split("/").pop() || "");
+  const isPostHomePage,
+    setIsPostHomePage = useState<boolean>(pathName.endsWith("/posts"));
+  const postId,
+    setPostId = useState<string>(pathName.split("/").pop());
 
   useEffect(() => {
     setIsPostHomePage(pathName.endsWith("/posts"));
-    setPostId(pathName.split("/").pop() || "");
-  }, [pathName]);
+    setPostId(pathName.split("/").pop());
+    router.replace(finalUrl);
+  }, [searchParams, router]);
 
   return (
     <>

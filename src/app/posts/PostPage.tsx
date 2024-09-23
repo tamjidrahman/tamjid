@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import PreviewablePostCard from "./postCard";
-import { TopNavBar } from "@/components/TopNavBar";
-import { posts } from "@/components/Posts";
+import { posts } from "@/components/postPage";
 import MultipleSelector, { Option } from "@/components/ui/multi-selector";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +15,6 @@ export default function PostPage() {
   const searchParams = useSearchParams();
   const initialTagsStr: string | null = searchParams.get("tag");
   const initialTags = initialTagsStr ? initialTagsStr.split(",") : [];
-  const initialSearchTerm: string | null = useSearchParams().get("search");
   const [isHovered, setIsHovered] = useState("");
   const allUniqueTags = posts.reduce((acc: string[], post) => {
     post.tags.forEach((tag) => {
@@ -158,7 +156,6 @@ export default function PostPage() {
                   selectedTags.map((option) => option.label).includes(tag),
                 )) &&
               (!searchTerm ||
-                post.body.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 post.description
                   .toLowerCase()
                   .includes(searchTerm.toLowerCase()) ||

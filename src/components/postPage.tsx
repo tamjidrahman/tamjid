@@ -1,10 +1,39 @@
+import { Badge } from "./ui/badge";
+
 export interface Post {
   id: string;
   title: string;
   description: string;
-  body: string;
   date: Date;
   tags: string[];
+}
+export function PostPage({
+  children,
+  post,
+}: {
+  children: React.ReactNode;
+  post: Post;
+}) {
+  const formattedDate = new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "long",
+  }).format(post.date);
+
+  return (
+    <>
+      <h1 className="text-primary text-4xl">{post.title}</h1>
+      <div className="space-x-1">
+        {post.tags.map((tag) => (
+          <a href={`/posts/?tag=${tag}`} key={tag}>
+            <Badge key={tag}>{tag}</Badge>
+          </a>
+        ))}
+      </div>
+      <h2 className="text-secondary mt-2">{post.description}</h2>
+      <div className="text-accent mt-2">{formattedDate}</div>
+      <div className="max-w-[88ch] py-10">{children}</div>
+    </>
+  );
 }
 
 export const posts: Post[] = [
@@ -15,7 +44,6 @@ export const posts: Post[] = [
     //href: "https://genzql.com",
     description: "it's giving SQL for GenZ",
     date: new Date(),
-    body: "genzql.html",
   },
   {
     id: "lammplighter",
@@ -24,13 +52,11 @@ export const posts: Post[] = [
     //href: "https://github.com/tamjidrahman/lammplighter",
     description: "docker for MD simulations",
     date: new Date(),
-    body: "",
   },
   {
     id: "letterboxsolver",
     title: "LetterBox Solver",
     date: new Date(),
-    body: "",
     tags: ["projects", "games"],
     //href: "https://github.com/tamjidrahman/letterboxsolver",
     description: "solve it once and for all",
@@ -41,7 +67,6 @@ export const posts: Post[] = [
     description: "... Coming soon!",
     date: new Date(),
     tags: ["management"],
-    body: "Coming soon!",
   },
   {
     id: "ultimatebunny",
@@ -49,6 +74,5 @@ export const posts: Post[] = [
     description: "For the discerning",
     date: new Date(),
     tags: ["memes", "personal"],
-    body: "Vinesh says I'm like the ultimate bunny. I don't disagree.",
   },
 ];

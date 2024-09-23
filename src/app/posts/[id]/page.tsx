@@ -1,7 +1,4 @@
-import { TopNavBar } from "@/components/TopNavBar";
-import { posts } from "@/components/Posts";
-import TextLink from "@/components/text/text-link";
-import { Badge } from "@/components/ui/badge";
+import { posts, PostPage } from "@/components/postPage";
 // This function will be called to generate the path dynamically
 interface PostPageProps {
   params: {
@@ -16,7 +13,7 @@ export async function generateStaticParams() {
   return paths;
 }
 
-export default function PostPage({ params }: PostPageProps) {
+export default function Page({ params }: PostPageProps) {
   const { id } = params;
 
   // Fetch post data based on the `id` parameter
@@ -25,24 +22,9 @@ export default function PostPage({ params }: PostPageProps) {
     return <div>Post not found</div>;
   }
 
-  const formattedDate = new Intl.DateTimeFormat("en-CA", {
-    year: "numeric",
-    month: "long",
-  }).format(post.date);
-
   return (
-    <>
-      <h1 className="text-primary text-4xl">{post.title}</h1>
-      <div className="space-x-1">
-        {post.tags.map((tag) => (
-          <a href={`/posts/?tag=${tag}`} key={tag}>
-            <Badge key={tag}>{tag}</Badge>
-          </a>
-        ))}
-      </div>
-      <h2 className="text-secondary mt-2">{post.description}</h2>
-      <p className="text-accent mt-2">{formattedDate}</p>
-      <p className="max-w-[88ch] py-10">{post.body}</p>
-    </>
+    <PostPage post={post}>
+      <div> Coming Soon...</div>
+    </PostPage>
   );
 }

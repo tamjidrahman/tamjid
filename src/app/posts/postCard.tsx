@@ -12,9 +12,8 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 
-import { Post } from "@/components/Posts";
+import { Post } from "@/components/postPage";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 const PreviewablePostCard: React.FC<{
   post: Post;
@@ -26,8 +25,6 @@ const PreviewablePostCard: React.FC<{
   useEffect(() => {
     setIsClient(true);
   }, []);
-
-  const router = useRouter();
 
   const formattedDate = new Intl.DateTimeFormat("en-CA", {
     year: "numeric",
@@ -60,12 +57,7 @@ const PreviewablePostCard: React.FC<{
             {post.description}
           </CardDescription>
         </CardHeader>
-        <CardContent className="p-4">
-          <p>
-            {post.body.slice(0, textCutOff)}{" "}
-            {post.body.length > textCutOff ? "..." : ""}
-          </p>
-        </CardContent>
+        <CardContent className="p-4"></CardContent>
         <CardFooter className="text-accent">{formattedDate}</CardFooter>
       </Card>
     </div>

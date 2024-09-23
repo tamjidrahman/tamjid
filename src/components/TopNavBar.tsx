@@ -11,7 +11,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { posts } from "./Posts";
+import { posts } from "./postPage";
 
 export function TopNavBar() {
   return (
