@@ -10,8 +10,9 @@ export default function Intro() {
           engineering manager in Cambridge, MA. I currently work at{" "}
           <TextLink href="https://www.nuna.com">Nuna</TextLink> where I lead a
           full-stack engineering team. Check in to see my{" "}
-          <TextLink href="/posts">coding adventures</TextLink>, thoughts on{" "}
-          <TextLink href="/posts">management</TextLink>, and{" "}
+          <TextLink href="/posts?tag=projects">coding adventures</TextLink>,
+          thoughts on{" "}
+          <TextLink href="/posts?tag=management">management</TextLink>, and{" "}
           <TextLink href="/posts">personal milestones</TextLink>.
         </p>
       </div>
