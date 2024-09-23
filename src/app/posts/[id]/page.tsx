@@ -46,7 +46,8 @@ export default function PostPage({ params }: PostPageProps) {
           Back to <TextLink href="/posts">Posts</TextLink>
         </div>
         <h1 className="text-primary text-4xl">{post.title}</h1>
-        <h2 className="text-accent mt-2">{formattedDate}</h2>
+        <h2 className="text-secondary mt-2">{post.description}</h2>
+        <p className="text-accent mt-2">{formattedDate}</p>
         <p className="max-w-[88ch] py-10">{post.body}</p>
       </div>
     </div>

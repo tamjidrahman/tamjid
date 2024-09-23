@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import PreviewablePostCard from "./postCard";
 import { TopNavBar } from "@/components/TopNavBar";
@@ -11,6 +12,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 export default function PostPage() {
+  const router = useRouter();
+  const setTagsStr: string | null = useSearchParams().get("tag");
+  const setTags = setTagsStr ? setTagsStr.split(",") : [];
   const [isHovered, setIsHovered] = useState("");
   const allUniqueTags = posts.reduce((acc: string[], post) => {
     post.tags.forEach((tag) => {
@@ -25,12 +29,43 @@ export default function PostPage() {
     label: tag,
     value: tag,
   }));
-  const [selectedTags, setSelectedTags] = useState(tagOptions);
-  const [tagFilterIsActive, setTagFilterIsActive] = useState(false);
+  const [selectedTags, setSelectedTags] = useState<Option[]>(
+    (setTags.map((tag) => ({
+      label: tag,
+      value: tag,
+    })) as Option) || [],
+  );
 
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
+
+  const handleFilterChange = (
+    tagOptions: Option[],
+    searchTerm: string | null,
+  ) => {
+    let finalUrl = `/posts`;
+
+    // add query params if needed
+    const tagQuery =
+      tagOptions.length > 0
+        ? `tag=${tagOptions.map((tag) => tag.value).join(",")}`
+        : "";
+
+    const searchQuery = searchTerm ? `search=${searchTerm}` : "";
+
+    (tagQuery || searchQuery) && (finalUrl += "?");
+
+    finalUrl += `${tagQuery}${tagQuery && searchQuery ? "&" : ""}${searchQuery}`;
+
+    setSelectedTags(tagOptions);
+    setSearchTerm(searchTerm);
+    router.push(finalUrl);
+  };
+
+  const handleTagUpdate = (tagOptions: Option[]) => {
+    handleFilterChange(tagOptions, searchTerm);
+  };
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+    handleFilterChange(selectedTags, event.target.value);
   };
 
   return (
@@ -42,6 +77,7 @@ export default function PostPage() {
         <h1 className="text-primary text-4xl text-center">Posts</h1>
         <div className="flex justify-center items-center">
           <Input
+            value={searchTerm || ""}
             className="w-auto mr-4"
             onChange={handleInputChange}
             placeholder="search..."
@@ -49,17 +85,9 @@ export default function PostPage() {
           <div className="w-auto py-10">
             <MultipleSelector
               defaultOptions={tagOptions}
-              value={tagFilterIsActive ? selectedTags : []}
-              onChange={(options) => {
-                if (options.length > 0) {
-                  setTagFilterIsActive(true);
-                  setSelectedTags(options);
-                } else {
-                  setTagFilterIsActive(false);
-                  setSelectedTags(tagOptions);
-                }
-              }}
-              placeholder={tagFilterIsActive ? "" : "filter tags..."}
+              value={selectedTags}
+              onChange={handleTagUpdate}
+              placeholder={selectedTags.length !== 0 ? "" : "filter tags..."}
               emptyIndicator={
                 <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
                   thats all the tags!
@@ -69,18 +97,18 @@ export default function PostPage() {
           </div>
         </div>
         <div>
-          {tagFilterIsActive && (
+          {(selectedTags.length > 0 || searchTerm) && (
             <div className="text-destructive">
-              only showing:{" "}
+              {selectedTags.length > 0 ? "tags: " : ""}
               {selectedTags.map((tag) => (
                 <Badge key={tag.value}>{tag.value}</Badge>
               ))}
+              {searchTerm ? " keyword: " + searchTerm : ""}
               <Button
                 className="ml-4"
                 variant={"ghost"}
                 onClick={() => {
-                  setSelectedTags(tagOptions);
-                  setTagFilterIsActive(false);
+                  handleFilterChange([], null);
                 }}
               >
                 clear
@@ -91,9 +119,10 @@ export default function PostPage() {
         <div className="grid grid-cols-3 gap-4">
           {posts.map(
             (post) =>
-              post.tags.some((tag) =>
-                selectedTags.map((option) => option.label).includes(tag),
-              ) &&
+              (selectedTags.length === 0 ||
+                post.tags.some((tag) =>
+                  selectedTags.map((option) => option.label).includes(tag),
+                )) &&
               (!searchTerm ||
                 post.body.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 post.description

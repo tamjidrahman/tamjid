@@ -75,6 +75,11 @@ export function TopNavBar() {
                     </ListItem>
                   ),
               )}
+              <ListItem
+                href="/posts?tag=projects"
+                title="See More!"
+                className="text-primary"
+              ></ListItem>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -95,6 +100,11 @@ export function TopNavBar() {
                     </ListItem>
                   ),
               )}
+              <ListItem
+                href="/posts?tag=management"
+                title="See More!"
+                className="text-primary"
+              ></ListItem>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -116,6 +126,12 @@ export function TopNavBar() {
                     </ListItem>
                   ),
               )}
+              <ListItem
+                href="/posts"
+                title="See More!"
+                className="text-primary"
+              ></ListItem>
+              ,
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
