@@ -12,6 +12,7 @@ export async function generateStaticParams() {
   // const res = await fetch("https://jsonplaceholder.typicode.com/posts");
   // const posts = await res.json();
 
+  // combine posts and projects
   const paths = posts.map((post) => ({
     params: { id: post.id },
   }));

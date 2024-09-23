@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import {
@@ -11,9 +10,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { projects } from "./projects";
 import { posts } from "./Posts";
 
 export function TopNavBar() {
@@ -65,16 +62,19 @@ export function TopNavBar() {
           <NavigationMenuTrigger>Projects</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid md:w-[400px] lg:w-[500px] text-primary gap-3 p-4 md:grid-cols-2">
-              {projects.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                  tags={component.tags}
-                >
-                  {component.description}
-                </ListItem>
-              ))}
+              {posts.map(
+                (post) =>
+                  post.tags.includes("projects") && (
+                    <ListItem
+                      key={post.title}
+                      title={post.title}
+                      href={`/posts/${post.id}`}
+                      tags={post.tags}
+                    >
+                      {post.description}
+                    </ListItem>
+                  ),
+              )}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -102,16 +102,20 @@ export function TopNavBar() {
           <NavigationMenuTrigger>Etc</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid md:w-[400px] lg:w-[500px] text-primary gap-3 p-4 md:grid-cols-2">
-              {posts.map((post) => (
-                <ListItem
-                  key={post.title}
-                  title={post.title}
-                  href={`/posts/${post.id}`}
-                  tags={post.tags}
-                >
-                  {post.description}
-                </ListItem>
-              ))}
+              {posts.map(
+                (post) =>
+                  !post.tags.includes("management") &&
+                  !post.tags.includes("projects") && (
+                    <ListItem
+                      key={post.title}
+                      title={post.title}
+                      href={`/posts/${post.id}`}
+                      tags={post.tags}
+                    >
+                      {post.description}
+                    </ListItem>
+                  ),
+              )}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
