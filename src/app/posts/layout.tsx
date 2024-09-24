@@ -2,6 +2,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { TopNavBar } from "@/components/TopNavBar";
 import TextLink from "@/components/text/text-link";
+import { ModeToggle } from "@/components/mode-toggle";
 
 import { usePathname } from "next/navigation";
 
@@ -42,6 +43,9 @@ export default function PostLayout({
           {children}
         </div>
       )}
+      <div className="flex justify-center mt-40">
+        <ModeToggle />
+      </div>
     </>
   );
 }
