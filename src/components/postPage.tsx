@@ -38,10 +38,9 @@ export function PostPage({
 
 export const posts: Post[] = [
   {
-    id: "genzql",
-    title: "ZQL",
+    id: "zql",
+    title: "Introducing ZQL: The Lit-est SQL Dialect in the Game 🎉",
     tags: ["projects", "memes"],
-    //href: "https://genzql.com",
     description: "it's giving SQL for GenZ",
     date: new Date(),
   },
@@ -49,7 +48,6 @@ export const posts: Post[] = [
     id: "lammplighter",
     title: "lammplighter",
     tags: ["projects", "research"],
-    //href: "https://github.com/tamjidrahman/lammplighter",
     description: "docker for MD simulations",
     date: new Date(),
   },
@@ -58,7 +56,6 @@ export const posts: Post[] = [
     title: "LetterBox Solver",
     date: new Date(),
     tags: ["projects", "games"],
-    //href: "https://github.com/tamjidrahman/letterboxsolver",
     description: "solve it once and for all",
   },
   {
