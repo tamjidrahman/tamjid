@@ -1,4 +1,6 @@
+import Bunny from "@/components/bunny";
 import { posts, PostPage } from "@/components/postPage";
+import fs from "fs";
 // This function will be called to generate the path dynamically
 interface PostPageProps {
   params: {
@@ -18,13 +20,25 @@ export default function Page({ params }: PostPageProps) {
 
   // Fetch post data based on the `id` parameter
   const post = posts.find((post) => post.id === id);
+  const htmlExists = fs.existsSync(`public/${id}.html`);
   if (!post) {
-    return <div>Post not found</div>;
+    return (
+      <div>
+        post not found <Bunny />
+      </div>
+    );
   }
-
+  const html = htmlExists && fs.readFileSync(`public/${id}.html`, "utf8");
   return (
     <PostPage post={post}>
-      <div> Coming Soon...</div>
+      {html ? (
+        <div dangerouslySetInnerHTML={{ __html: html }}></div>
+      ) : (
+        <div>
+          {" "}
+          post body not found <Bunny />
+        </div>
+      )}
     </PostPage>
   );
 }
