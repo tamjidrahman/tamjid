@@ -18,7 +18,6 @@ export async function generateStaticParams() {
 export default function Page({ params }: PostPageProps) {
   const { id } = params;
 
-  // Fetch post data based on the `id` parameter
   const post = posts.find((post) => post.id === id);
   const htmlExists = fs.existsSync(`public/${id}.html`);
   if (!post) {
@@ -36,7 +35,7 @@ export default function Page({ params }: PostPageProps) {
       ) : (
         <div>
           {" "}
-          post body not found <Bunny />
+          Coming soon... <Bunny />
         </div>
       )}
     </PostPage>
