@@ -45,20 +45,6 @@ export const posts: Post[] = [
     date: new Date(),
   },
   {
-    id: "lammplighter",
-    title: "lammplighter",
-    tags: ["projects", "research"],
-    description: "docker for MD simulations",
-    date: new Date(),
-  },
-  {
-    id: "letterboxsolver",
-    title: "LetterBox Solver",
-    date: new Date(),
-    tags: ["projects", "games"],
-    description: "solve it once and for all",
-  },
-  {
     id: "redgates",
     title: "On Red Gates",
     description: "... Coming soon!",
