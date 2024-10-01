@@ -72,4 +72,11 @@ export const posts: Post[] = [
     date: new Date(),
     tags: ["memes", "personal"],
   },
+  {
+    id: "whymanagement",
+    title: "Why Management?",
+    description: "A reflection on how I got here",
+    date: new Date(),
+    tags: ["management", "personal"],
+  },
 ];
