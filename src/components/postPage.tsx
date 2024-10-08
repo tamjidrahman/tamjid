@@ -42,7 +42,7 @@ export const posts: Post[] = [
     title: "Introducing ZQL: The Lit-est SQL Dialect in the Game 🎉",
     tags: ["projects", "memes"],
     description: "it's giving SQL for GenZ",
-    date: new Date(),
+    date: new Date(2024, 8, 1),
   },
   {
     id: "redgates",
