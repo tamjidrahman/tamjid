@@ -12,7 +12,6 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { posts } from "./postPage";
-import { TransitionLink } from "./ui/utils/TransitionLink";
 
 export function TopNavBar() {
   return (
@@ -22,36 +21,12 @@ export function TopNavBar() {
           <NavigationMenuTrigger>About Me</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
-                <NavigationMenuLink asChild>
-                  <TransitionLink
-                    href="/"
-                    className="flex h-full w-full select-none flex-col justify-center rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                  >
-                    <div className="mb-2 mt-4 text-lg font-medium text-primary">
-                      Tamjid Rahman
-                    </div>
-                    <p className="text-sm leading-tight text-muted-foreground">
-                      {
-                        "I'm a Software Engineering Manager. I live in Cambridge, MA"
-                      }
-                    </p>
-                  </TransitionLink>
-                </NavigationMenuLink>
-              </li>
-              <ListItem
-                href="/"
-                title="Mission Statement"
-                className="text-primary"
-              >
-                ... Coming Soon!
-              </ListItem>
-              <ListItem href="/" title="My README" className="text-primary">
+              <ListItem href="/" title="About Me" className="text-primary">
                 For the discerning
               </ListItem>
               <ListItem
                 href="https://tidycal.com/tamjidarrahman/connect"
-                title="Let's Connect!"
+                title="Let's Connect"
                 className="text-primary"
               >
                 For the eager
