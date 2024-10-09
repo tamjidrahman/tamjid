@@ -26,5 +26,11 @@ EXPOSE 3000
 # The "node" user is provided in the Node.js Alpine base image
 USER node
 
+# set env variables
+ARG NEXT_PUBLIC_POSTHOG_KEY
+ENV NEXT_PUBLIC_POSTHOG_KEY=$NEXT_PUBLIC_POSTHOG_KEY 
+ARG NEXT_PUBLIC_POSTHOG_HOST
+ENV NEXT_PUBLIC_POSTHOG_HOST=$NEXT_PUBLIC_POSTHOG_HOST
+
 # Launch app with PM2
 CMD [ "pm2-runtime", "start", "npm", "--", "start" ]
