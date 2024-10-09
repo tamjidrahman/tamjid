@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import PreviewablePostCard from "./postCard";
+import PreviewablePostCard from "./PostCard";
 import { posts } from "@/components/postPage";
 import MultipleSelector, { Option } from "@/components/ui/multi-selector";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export default function PostPage() {
+export default function PostSearch() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialTagsStr: string | null = searchParams.get("tag");

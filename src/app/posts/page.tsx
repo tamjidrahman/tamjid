@@ -1,6 +1,5 @@
-import { Suspense } from "react";
-import PostPage from "./PostPage"; // Your component
+import PostSearch from "@/components/PostSearch"; // Your component
 
 export default function PageWrapper() {
-  return <PostPage />;
+  return <PostSearch />;
 }

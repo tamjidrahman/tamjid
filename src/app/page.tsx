@@ -1,12 +1,12 @@
 "use client";
 
-import * as React from "react";
-
 import { TopNavBar } from "@/components/TopNavBar";
 import { ModeToggle } from "@/components/mode-toggle";
 import { SocialMediaIcons } from "@/social-media-icons";
 import Intro from "@/components/intro";
 import Head from "next/head";
+import PostSearch from "@/components/PostSearch";
+import Bunny from "@/components/bunny";
 
 export default function Home() {
   return (
@@ -46,10 +46,11 @@ export default function Home() {
       <div className="flex justify-center">
         <SocialMediaIcons />
       </div>
-      <div className="flex justify-center mt-10">
-        <TopNavBar />
-      </div>
+      {/* <div className="flex justify-center mt-10"> */}
+      {/*   <TopNavBar /> */}
+      {/* </div> */}
       <Intro />
+      <Bunny />
       <div className="flex justify-center mt-40">
         <ModeToggle />
       </div>

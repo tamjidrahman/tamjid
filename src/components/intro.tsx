@@ -16,7 +16,6 @@ export default function Intro() {
           <TextLink href="/posts">personal milestones</TextLink>.
         </p>
       </div>
-      <Bunny />
     </>
   );
 }

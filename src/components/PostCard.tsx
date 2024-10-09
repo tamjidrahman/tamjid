@@ -18,7 +18,7 @@ import Link from "next/link";
 const PreviewablePostCard: React.FC<{
   post: Post;
   isExpanded: boolean;
-}> = ({ post, isExpanded }) => {
+}> = ({ post }) => {
   // Since we're nesting interactive components (the badge), we need to prevent the outer link from being triggered
   const [isClient, setIsClient] = useState(false);
 
