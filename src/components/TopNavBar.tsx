@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,7 +13,12 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { posts } from "./postPage";
+import { TransitionLink } from "./ui/utils/TransitionLink";
+import { Button } from "./ui/button";
 
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 export function TopNavBar() {
   return (
     <NavigationMenu>
@@ -28,6 +34,7 @@ export function TopNavBar() {
                 href="https://tidycal.com/tamjidarrahman/connect"
                 title="Let's Connect"
                 className="text-primary"
+                external={true}
               >
                 For the eager
               </ListItem>
@@ -117,37 +124,61 @@ export function TopNavBar() {
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a"> & { tags?: string[] }
->(({ className, title, children, tags = [], ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className,
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-          {/* Render tags */}
-          <div className="mt-2">
-            {tags.map((tag, index) => (
-              <span
-                key={index}
-                className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
+  React.ComponentPropsWithoutRef<"a"> & { tags?: string[]; external?: boolean }
+>(
+  ({
+    className,
+    title,
+    children,
+    tags = [],
+    external = false,
+    href,
+    ...props
+  }) => {
+    const router = useRouter();
+    const handleTransition = async (
+      e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    ) => {
+      e.preventDefault();
+
+      const body = document.querySelector("body");
+      body?.classList.add("page-transition");
+      await sleep(50);
+      router.push(href || "");
+      await sleep(50);
+      body?.classList.remove("page-transition");
+    };
+    return (
+      <li>
+        <NavigationMenuLink asChild>
+          <a
+            href={href}
+            onClick={!external ? handleTransition : undefined}
+            className={cn(
+              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+              className,
+            )}
+            {...props}
+          >
+            <div className="text-sm font-medium leading-none">{title}</div>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+              {children}
+            </p>
+            {/* Render tags */}
+            <div className="mt-2">
+              {tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </a>
+        </NavigationMenuLink>
+      </li>
+    );
+  },
+);
 ListItem.displayName = "ListItem";
