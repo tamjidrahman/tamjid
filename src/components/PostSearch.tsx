@@ -9,6 +9,7 @@ import MultipleSelector, { Option } from "@/components/ui/multi-selector";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { TransitionLink } from "./ui/utils/TransitionLink";
 
 export default function PostSearch() {
   const router = useRouter();
@@ -162,18 +163,16 @@ export default function PostSearch() {
                 post.title
                   .toLowerCase()
                   .includes(searchTerm.toLowerCase())) && (
-                <Link
+                <TransitionLink
                   href={`/posts/${post.id}`} // Redirect to the post's detailed pagediv
                   key={post.id}
-                  onMouseEnter={() => setIsHovered(post.id)} // Set hover to the post ID
-                  onMouseLeave={() => setIsHovered("")}
                 >
                   <PreviewablePostCard
                     key={post.id}
                     post={post}
                     isExpanded={isHovered == post.id}
                   />
-                </Link>
+                </TransitionLink>
               ),
           )}
         </div>

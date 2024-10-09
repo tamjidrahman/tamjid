@@ -1,4 +1,6 @@
 import React, { FC, ReactNode } from "react";
+import { TransitionLink } from "../ui/utils/TransitionLink";
+import Link from "next/link";
 
 interface TextLinkProps {
   href: string;
@@ -17,21 +19,21 @@ const TextLink: FC<TextLinkProps> = ({
 
   if (external) {
     return (
-      <a
+      <Link
         href={href}
         target="_blank"
         rel="noopener noreferrer"
         className={`${baseStyles} ${className}`}
       >
         {children}
-      </a>
+      </Link>
     );
   }
 
   return (
-    <a href={href} className={`${baseStyles} ${className}`}>
+    <TransitionLink href={href} className={`${baseStyles} ${className}`}>
       {children}
-    </a>
+    </TransitionLink>
   );
 };
 

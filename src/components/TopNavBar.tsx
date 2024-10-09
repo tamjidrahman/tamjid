@@ -12,6 +12,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { posts } from "./postPage";
+import { TransitionLink } from "./ui/utils/TransitionLink";
 
 export function TopNavBar() {
   return (
@@ -23,9 +24,9 @@ export function TopNavBar() {
             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
-                  <a
-                    className="flex h-full w-full select-none flex-col justify-center rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                  <TransitionLink
                     href="/"
+                    className="flex h-full w-full select-none flex-col justify-center rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                   >
                     <div className="mb-2 mt-4 text-lg font-medium text-primary">
                       Tamjid Rahman
@@ -35,7 +36,7 @@ export function TopNavBar() {
                         "I'm a Software Engineering Manager. I live in Cambridge, MA"
                       }
                     </p>
-                  </a>
+                  </TransitionLink>
                 </NavigationMenuLink>
               </li>
               <ListItem
@@ -49,8 +50,8 @@ export function TopNavBar() {
                 For the discerning
               </ListItem>
               <ListItem
-                href="https://tidycal.com/tamjidarrahman/coffee"
-                title="Coffee Chat!"
+                href="https://tidycal.com/tamjidarrahman/connect"
+                title="Let's Connect!"
                 className="text-primary"
               >
                 For the eager
