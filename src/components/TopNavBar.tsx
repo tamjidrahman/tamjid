@@ -31,10 +31,9 @@ export function TopNavBar() {
                 For the discerning
               </ListItem>
               <ListItem
-                href="https://tidycal.com/tamjidarrahman/connect"
+                href="/connect"
                 title="Let's Connect"
                 className="text-primary"
-                external={true}
               >
                 For the eager
               </ListItem>

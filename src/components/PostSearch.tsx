@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import PreviewablePostCard from "./PostCard";
 import { posts } from "@/components/postPage";
 import MultipleSelector, { Option } from "@/components/ui/multi-selector";
