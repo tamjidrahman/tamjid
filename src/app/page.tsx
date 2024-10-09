@@ -5,7 +5,6 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { SocialMediaIcons } from "@/social-media-icons";
 import Intro from "@/components/intro";
 import Head from "next/head";
-import PostSearch from "@/components/PostSearch";
 import Bunny from "@/components/bunny";
 
 export default function Home() {
@@ -46,10 +45,12 @@ export default function Home() {
       <div className="flex justify-center">
         <SocialMediaIcons />
       </div>
-      {/* <div className="flex justify-center mt-10"> */}
-      {/*   <TopNavBar /> */}
-      {/* </div> */}
-      <Intro />
+      <div className="flex justify-center mt-10">
+        <TopNavBar />
+      </div>
+      <div id="intro">
+        <Intro />
+      </div>
       <Bunny />
       <div className="flex justify-center mt-40">
         <ModeToggle />
