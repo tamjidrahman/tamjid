@@ -1,5 +1,10 @@
 import PostSearch from "@/components/PostSearch"; // Your component
+import { Suspense } from "react";
 
 export default function PageWrapper() {
-  return <PostSearch />;
+  return (
+    <Suspense>
+      <PostSearch />
+    </Suspense>
+  );
 }
