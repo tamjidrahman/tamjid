@@ -1,4 +1,3 @@
-import Bunny from "@/components/bunny";
 import TextLink from "@/components/text/text-link";
 
 export default function Intro() {
