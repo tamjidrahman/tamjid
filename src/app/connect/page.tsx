@@ -14,6 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import TextLink from "@/components/text/text-link";
 
 // Define the interface for the slot data
 interface Slot {
@@ -197,6 +198,14 @@ export default function AvailableBookings() {
                   ),
               ]}
             />
+            <div className="text-xs text-secondary">
+              {" "}
+              Powered by{" "}
+              <TextLink href="https://www.neetocal.com" external={true}>
+                {" "}
+                NeetoCal
+              </TextLink>{" "}
+            </div>
 
             {/* Display Booking Times for the Selected Date */}
             {selectedDate && (
