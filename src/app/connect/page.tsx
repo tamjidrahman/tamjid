@@ -5,6 +5,15 @@ import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { TopNavBar } from "@/components/TopNavBar";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 // Define the interface for the slot data
 interface Slot {
@@ -21,6 +30,9 @@ export default function AvailableBookings() {
   const [loading, setLoading] = useState(true); // Loading state
   const [name, setName] = useState(""); // State for user's name
   const [email, setEmail] = useState(""); // State for user's email
+  const [topic, setTopic] = useState(""); // State for booking topic (optional)
+  const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null); // State for selected slot
+  const [dialogOpen, setDialogOpen] = useState(false); // State for controlling the dialog visibility
 
   // Fetch available slots data inside useEffect
   useEffect(() => {
@@ -36,7 +48,7 @@ export default function AvailableBookings() {
         // Extract the available dates from the slots
         const slotDates = data.map((slot) => {
           const startDate = new Date(slot.start);
-          return startDate; // Ensure the value passed to new Date is valid
+          return startDate;
         });
 
         // Set available dates and slots
@@ -70,28 +82,24 @@ export default function AvailableBookings() {
 
   // Handle booking button click
   const handleBookingClick = (slot: Slot) => {
-    const userName = prompt("Please enter your name:");
-    const userEmail = prompt("Please enter your email:");
-
-    if (userName && userEmail) {
-      setName(userName);
-      setEmail(userEmail);
-
-      // Now call the function to submit the booking to the /booking API
-      submitBooking(userName, userEmail, slot);
-    } else {
-      alert("Name and email are required to book!");
-    }
+    setSelectedSlot(slot);
+    setDialogOpen(true); // Open the dialog
   };
 
   // Submit the booking
-  const submitBooking = async (name: string, email: string, slot: Slot) => {
+  const submitBooking = async () => {
+    if (!name || !email || !selectedSlot) {
+      alert("Name, email, and slot selection are required!");
+      return;
+    }
+
     const bookingData = {
-      name: name,
-      email: email,
+      name,
+      email,
+      topic: topic || "No specific topic", // Optional topic input
       time_zone: Intl.DateTimeFormat().resolvedOptions().timeZone, // User's timezone
-      slot_date: new Date(slot.start).toISOString().split("T")[0], // Get the date part
-      slot_start_time: new Date(slot.start).toLocaleTimeString([], {
+      slot_date: new Date(selectedSlot.start).toISOString().split("T")[0], // Get the date part
+      slot_start_time: new Date(selectedSlot.start).toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
       }),
@@ -118,6 +126,8 @@ export default function AvailableBookings() {
     } catch (error) {
       console.error("Error submitting booking", error);
       alert("An error occurred while submitting the booking.");
+    } finally {
+      setDialogOpen(false); // Close the dialog
     }
   };
 
@@ -214,6 +224,43 @@ export default function AvailableBookings() {
           </>
         )}
       </div>
+
+      {/* Booking Dialog */}
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogTrigger asChild>
+          <Button className="invisible">Open Booking</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-primary">
+              let&apos;s goooooo
+            </DialogTitle>
+            <DialogDescription>
+              send the details below and confirm your booking
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-4 items-center">
+            <Input
+              placeholder="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <Input
+              placeholder="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              placeholder="[optional] topic"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+            />
+            <Button className="max-w-50" onClick={submitBooking}>
+              Confirm Booking
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
