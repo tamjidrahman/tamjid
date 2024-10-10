@@ -6,140 +6,118 @@ import { Button } from "@/components/ui/button";
 import { TopNavBar } from "@/components/TopNavBar";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// Define the interface for the booking data
-interface Booking {
-  start: Date;
-  end: Date;
-}
-
-// Group bookings by date
-interface GroupedBookings {
-  [date: string]: Booking[];
+// Define the interface for the slot data
+interface Slot {
+  start: string; // ISO date-time string
+  end: string; // ISO date-time string
 }
 
 export default function AvailableBookings() {
-  const [bookings, setBookings] = useState<GroupedBookings>({}); // State with grouped bookings by date
+  const [slots, setSlots] = useState<Slot[]>([]); // State with a flat list of available slots
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     new Date(),
   ); // Selected date for showing booking times
-  const [availableDates, setAvailableDates] = useState<Date[]>([]); // Dates with available bookings
+  const [availableDates, setAvailableDates] = useState<Date[]>([]); // Dates with available slots
   const [loading, setLoading] = useState(true); // Loading state
   const [name, setName] = useState(""); // State for user's name
   const [email, setEmail] = useState(""); // State for user's email
-  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null); // State for selected booking
 
-  // Fetch bookings data inside useEffect
+  // Fetch available slots data inside useEffect
   useEffect(() => {
-    const fetchBookings = async () => {
+    const fetchSlots = async () => {
       setLoading(true); // Set loading to true before the request
 
       try {
-        const today = new Date();
-        const oneMonthLater = new Date();
-        oneMonthLater.setMonth(today.getMonth() + 1);
-
-        // Format the dates as ISO strings
-        const start = today.toISOString(); // Today's date in ISO format
-        const end = oneMonthLater.toISOString(); // One month later in ISO format
-
         const res = await fetch(
-          `/api/available-bookings?start=${start}&end=${end}`,
+          `/api/slots?time_zone=America/New_York&year=2024&month=10`,
         );
-        const data = await res.json();
+        const data: Slot[] = await res.json();
 
-        // Group bookings by date and extract available dates
-        const groupedBookings: GroupedBookings = data.reduce(
-          (acc: GroupedBookings, booking_json: any) => {
-            const startDate = new Date(booking_json.start).toDateString(); // Group by date string
-            const booking: Booking = {
-              start: new Date(booking_json.start),
-              end: new Date(booking_json.end),
-            };
-            if (!acc[startDate]) {
-              acc[startDate] = [];
-            }
-            acc[startDate].push(booking);
-            return acc;
-          },
-          {},
-        );
+        // Extract the available dates from the slots
+        const slotDates = data.map((slot) => {
+          const startDate = new Date(slot.start);
+          return startDate; // Ensure the value passed to new Date is valid
+        });
 
-        setBookings(groupedBookings || {});
+        // Set available dates and slots
+        const uniqueDates = Array.from(
+          new Set(slotDates.map((d: Date) => d.toDateString())),
+        ).map((dateString: string) => new Date(dateString));
 
-        // Extract available dates from grouped bookings
-        const availableDatesArray = Object.keys(groupedBookings).map(
-          (dateString) => new Date(dateString),
-        );
-        setAvailableDates(availableDatesArray);
+        setAvailableDates(uniqueDates);
+        setSlots(data);
       } catch (error) {
-        console.error("Error fetching bookings:", error);
+        console.error("Error fetching slots:", error);
       } finally {
         setLoading(false); // Set loading to false after the request completes
       }
     };
 
-    fetchBookings(); // Call the fetch function
+    fetchSlots(); // Call the fetch function
   }, []); // Empty dependency array means it runs once on mount
 
-  // Get bookings for the selected date
-  const getBookingsForSelectedDate = () => {
+  // Get bookings (slots) for the selected date
+  const getSlotsForSelectedDate = () => {
     if (selectedDate) {
       const selectedDateString = selectedDate.toDateString();
-      return bookings[selectedDateString] || [];
+      return slots.filter((slot) => {
+        const slotDate = new Date(slot.start).toDateString();
+        return slotDate === selectedDateString;
+      });
     }
     return [];
   };
 
   // Handle booking button click
-  const handleBookingClick = (booking: Booking) => {
+  const handleBookingClick = (slot: Slot) => {
     const userName = prompt("Please enter your name:");
     const userEmail = prompt("Please enter your email:");
 
     if (userName && userEmail) {
       setName(userName);
       setEmail(userEmail);
-      setSelectedBooking(booking);
 
-      // Now call the function to create the Google Calendar event
-      createGoogleCalendarEvent(userName, userEmail, booking);
+      // Now call the function to submit the booking to the /booking API
+      submitBooking(userName, userEmail, slot);
     } else {
       alert("Name and email are required to book!");
     }
   };
 
-  // Submit the booking to Google Calendar
-  const createGoogleCalendarEvent = async (
-    name: string,
-    email: string,
-    booking: Booking,
-  ) => {
-    const eventData = {
-      name,
-      email,
-      start: booking.start.toISOString(),
-      end: booking.end.toISOString(),
+  // Submit the booking
+  const submitBooking = async (name: string, email: string, slot: Slot) => {
+    const bookingData = {
+      name: name,
+      email: email,
+      time_zone: Intl.DateTimeFormat().resolvedOptions().timeZone, // User's timezone
+      slot_date: new Date(slot.start).toISOString().split("T")[0], // Get the date part
+      slot_start_time: new Date(slot.start).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      form_responses: {}, // Optional form responses
     };
 
     try {
-      const response = await fetch("/api/create-event", {
+      const response = await fetch("/api/bookings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(eventData),
+        body: JSON.stringify(bookingData),
       });
 
       const result = await response.json();
 
       if (response.ok) {
-        alert("Event successfully created in Google Calendar!");
+        alert("Booking successfully submitted!");
       } else {
-        console.error("Event creation failed", result);
-        alert("Failed to create event. Please try again.");
+        console.error("Booking submission failed", result);
+        alert("Failed to submit booking. Please try again.");
       }
     } catch (error) {
-      console.error("Error creating event", error);
-      alert("An error occurred while creating the event.");
+      console.error("Error submitting booking", error);
+      alert("An error occurred while submitting the booking.");
     }
   };
 
@@ -154,7 +132,7 @@ export default function AvailableBookings() {
           Let&apos;s Connect!{" "}
         </h1>
 
-        {/* Show loading bar while fetching bookings */}
+        {/* Show loading bar while fetching slots */}
         {loading ? (
           <div className="flex justify-center">
             <div className="grid grid-cols-7 gap-1 p-2 h-[307px] w-[278px] rounded-md border">
@@ -165,7 +143,7 @@ export default function AvailableBookings() {
               </div>
 
               {/* Placeholder for the weekdays row */}
-              {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day, index) => (
+              {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((_day, index) => (
                 <div key={index} className="flex justify-center text-sm">
                   <Skeleton className="h-4 w-4 rounded-full"></Skeleton>
                 </div>
@@ -205,24 +183,25 @@ export default function AvailableBookings() {
             {selectedDate && (
               <div className="flex flex-col items-center gap-y-4 mt-8">
                 <h2 className="text-center">
-                  {getBookingsForSelectedDate().length === 0
+                  {getSlotsForSelectedDate().length === 0
                     ? `No times available for ${selectedDate.toDateString()}`
-                    : `Available Bookings for ${selectedDate.toDateString()}`}
+                    : `Available Slots for ${selectedDate.toDateString()}`}
                 </h2>
                 <div className="flex flex-col gap-4 max-w-fit">
-                  {getBookingsForSelectedDate().map((booking, index) => (
+                  {getSlotsForSelectedDate().map((slot, index) => (
                     <Button
                       key={index}
                       className="booking-button"
                       variant="secondary"
-                      onClick={() => handleBookingClick(booking)} // Handle click event
+                      onClick={() => handleBookingClick(slot)} // Handle click event
                     >
-                      {booking.start.toLocaleTimeString([], {
+                      {new Date(slot.start).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
+                        timeZoneName: "short",
                       })}{" "}
                       -{" "}
-                      {booking.end.toLocaleTimeString([], {
+                      {new Date(slot.end).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
                         timeZoneName: "short",
