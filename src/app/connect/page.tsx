@@ -100,62 +100,46 @@ export default function AvailableBookings() {
       setEmail(userEmail);
       setSelectedBooking(booking);
 
-      // Now call the function to submit the booking
-      submitBooking(userName, userEmail, booking);
+      // Now call the function to create the Google Calendar event
+      createGoogleCalendarEvent(userName, userEmail, booking);
     } else {
       alert("Name and email are required to book!");
     }
   };
 
-  // Submit the booking
-  const submitBooking = async (
+  // Submit the booking to Google Calendar
+  const createGoogleCalendarEvent = async (
     name: string,
     email: string,
     booking: Booking,
   ) => {
-    const bookingData = {
-      _method: "post",
-      name: name,
-      email: email,
+    const eventData = {
+      name,
+      email,
       start: booking.start.toISOString(),
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, // User's timezone
-      bookings: [
-        {
-          start: booking.start.toISOString(),
-          end: booking.end.toISOString(),
-        },
-      ],
-      booking_questions: [],
-      payment_id: null,
-      paypal_order_id: null,
-      stripe_confirmation_token: null,
-      "g-recaptcha-response": "", // Add Recaptcha if needed
+      end: booking.end.toISOString(),
     };
 
     try {
-      const response = await fetch("https://tidycal.com/bookings/1dz87zd", {
-        mode: "no-cors",
+      const response = await fetch("/api/create-event", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json, text/plain, */*",
-          "X-Requested-With": "XMLHttpRequest",
-          "x-xsrf-token": "your-xsrf-token-here", // Ensure you have the correct token
         },
-        body: JSON.stringify(bookingData),
+        body: JSON.stringify(eventData),
       });
 
       const result = await response.json();
 
       if (response.ok) {
-        alert("Booking successfully submitted!");
+        alert("Event successfully created in Google Calendar!");
       } else {
-        console.error("Booking submission failed", result);
-        alert("Failed to submit booking. Please try again.");
+        console.error("Event creation failed", result);
+        alert("Failed to create event. Please try again.");
       }
     } catch (error) {
-      console.error("Error submitting booking", error);
-      alert("An error occurred while submitting the booking.");
+      console.error("Error creating event", error);
+      alert("An error occurred while creating the event.");
     }
   };
 
@@ -167,7 +151,7 @@ export default function AvailableBookings() {
       <div className="flex flex-col items-center gap-y-8">
         <h1 className="text-4xl text-primary text-center">
           {" "}
-          Let&apos;s Connect!
+          Let&apos;s Connect!{" "}
         </h1>
 
         {/* Show loading bar while fetching bookings */}

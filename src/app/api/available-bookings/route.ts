@@ -1,34 +1,15 @@
-import { google } from "googleapis";
 import { NextResponse } from "next/server";
-import { DateTime, Interval } from "luxon";
 
-// Load service account credentials from environment variables
-const credentials = JSON.parse(
-  process.env.GOOGLE_SERVICE_ACCOUNT_KEY as string,
-);
-
-// Google Calendar API authentication using environment variables
-const auth = new google.auth.GoogleAuth({
-  credentials,
-  scopes: ["https://www.googleapis.com/auth/calendar.readonly"],
-});
-
-// Initialize Google Calendar API
-const calendar = google.calendar({ version: "v3", auth });
-
-// Days of the week that are bookable (Sunday = 7, Tuesday = 2, Wednesday = 3 in Luxon)
-const VALID_DAYS = [7, 2, 3];
-
-// Morning hours range (9:00 AM to 1:00 PM in Eastern Time)
-const AVAILABILITY_START_HOUR_EASTERN = 9;
-const AVAILABILITY_END_HOUR_EASTERN = 13;
-const EASTERN_TIMEZONE = "America/New_York";
-const SLOT_DURATION_MINUTES = 30; // Duration of each booking slot in minutes
-
-// Make start and end optional to match the Google Calendar API schema
-interface FreeBusyPeriod {
-  start?: string | null;
-  end?: string | null;
+// Define the interface for the new slot data structure
+interface SlotData {
+  date: string;
+  slots: {
+    [key: string]: {
+      start_time: string;
+      end_time: string;
+      is_available: boolean;
+    };
+  };
 }
 
 interface TimeSlot {
@@ -38,18 +19,32 @@ interface TimeSlot {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const start = searchParams.get("start");
-  const end = searchParams.get("end");
-
-  if (!start || !end) {
-    return NextResponse.json(
-      { error: "Start and end parameters are required." },
-      { status: 400 },
-    );
-  }
+  const timeZone = searchParams.get("time_zone") || "America/New_York"; // Default to Eastern Time
+  const year = searchParams.get("year") || new Date().getFullYear().toString();
+  const month =
+    searchParams.get("month") || (new Date().getMonth() + 1).toString(); // Default to current month
 
   try {
-    const freeSlots = await calculateFreeSlots(start, end);
+    // Call the new API to get available slots
+    const response = await fetch(
+      `https://tamjid.neetocal.com/api/external/v1/slots/connect?time_zone=${timeZone}&year=${year}&month=${month}`,
+      {
+        method: "GET",
+        headers: {
+          "X-Api-Key": process.env.NEETO_API_KEY as string, // Ensure this API key is stored securely in your environment variables
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch available slots");
+    }
+
+    const data = await response.json();
+
+    // Process the response data and return a flat list of available slots
+    const freeSlots: TimeSlot[] = extractAvailableSlots(data.slots);
+
     return NextResponse.json(freeSlots);
   } catch (error) {
     console.error("Failed to fetch calendar free/busy data:", error);
@@ -60,112 +55,49 @@ export async function GET(request: Request) {
   }
 }
 
-// Function to calculate free slots in 30-minute intervals
-async function calculateFreeSlots(
-  start: string,
-  end: string,
-): Promise<TimeSlot[]> {
-  const busyPeriods = await getBusyPeriods(start, end);
-
+// Function to extract available time slots from the API response as a flat list
+function extractAvailableSlots(slotsData: SlotData[]): TimeSlot[] {
   const freeSlots: TimeSlot[] = [];
-  let currentDate = DateTime.fromISO(start).setZone(EASTERN_TIMEZONE);
-  const endDate = DateTime.fromISO(end).setZone(EASTERN_TIMEZONE);
 
-  while (currentDate < endDate) {
-    const dayOfWeek = currentDate.weekday;
+  for (const day of slotsData) {
+    const slotEntries = Object.entries(day.slots);
 
-    // Check if the current day is valid (Sunday, Tuesday, or Wednesday)
-    if (VALID_DAYS.includes(dayOfWeek)) {
-      // Define the availability window for the day
-      const availabilityStart = currentDate
-        .set({ hour: AVAILABILITY_START_HOUR_EASTERN, minute: 0 })
-        .toUTC();
-      const availabilityEnd = currentDate
-        .set({ hour: AVAILABILITY_END_HOUR_EASTERN, minute: 0 })
-        .toUTC();
+    for (const [_, slot] of slotEntries) {
+      if (slot.is_available) {
+        // Construct valid ISO date-time strings
+        const startISO = new Date(
+          `${day.date}T${convertTo24Hour(slot.start_time)}`,
+        ).toISOString();
 
-      const availabilityInterval = Interval.fromDateTimes(
-        availabilityStart,
-        availabilityEnd,
-      );
+        const endISO = new Date(
+          `${day.date}T${convertTo24Hour(slot.end_time)}`,
+        ).toISOString();
 
-      // Subtract busy periods from the availability window
-      let freeIntervals = [availabilityInterval];
-
-      for (const busy of busyPeriods) {
-        if (busy.start && busy.end) {
-          const busyInterval = Interval.fromISO(`${busy.start}/${busy.end}`);
-          freeIntervals = freeIntervals.flatMap((free) =>
-            free.difference(busyInterval),
-          );
-        }
-      }
-
-      // Convert free intervals into 30-minute slots
-      for (const interval of freeIntervals) {
-        const slots = splitIntoSlots(interval);
-        freeSlots.push(...slots);
+        freeSlots.push({
+          start: startISO,
+          end: endISO,
+        });
       }
     }
-
-    // Move to the next day
-    currentDate = currentDate.plus({ days: 1 });
   }
 
   return freeSlots;
 }
 
-// Function to fetch busy periods from the Google Calendar Free/Busy API
-async function getBusyPeriods(
-  start: string,
-  end: string,
-): Promise<FreeBusyPeriod[]> {
-  const response = await calendar.freebusy.query({
-    requestBody: {
-      timeMin: new Date(start).toISOString(),
-      timeMax: new Date(end).toISOString(),
-      items: [{ id: "tamjidarrahman@gmail.com" }],
-    },
-  });
+// Helper function to convert 12-hour format to 24-hour format
+function convertTo24Hour(time: string): string {
+  const [timePart, modifier] = time.split(" "); // e.g. ["09:00", "AM"]
+  let [hours, minutes] = timePart.split(":").map(Number);
 
-  const calendars = response.data.calendars;
-
-  // Ensure we safely access the busy periods array
-  if (!calendars || !calendars["tamjidarrahman@gmail.com"]) {
-    return [];
+  if (modifier === "PM" && hours !== 12) {
+    hours += 12;
+  } else if (modifier === "AM" && hours === 12) {
+    hours = 0;
   }
 
-  return calendars["tamjidarrahman@gmail.com"].busy ?? [];
-}
+  // Ensure the result is in HH:MM format
+  const formattedHours = String(hours).padStart(2, "0");
+  const formattedMinutes = String(minutes).padStart(2, "0");
 
-// Helper function to split a time interval into 30-minute slots
-function splitIntoSlots(interval: Interval): TimeSlot[] {
-  const slots: TimeSlot[] = [];
-  let slotStart = interval.start;
-
-  // Ensure slotStart and interval.end are not null
-  if (!slotStart || !interval.end) {
-    return slots; // Return empty slots array if null
-  }
-
-  if (slotStart.minute % SLOT_DURATION_MINUTES !== 0) {
-    slotStart = slotStart.plus({
-      minutes:
-        SLOT_DURATION_MINUTES - (slotStart.minute % SLOT_DURATION_MINUTES),
-    });
-  }
-  while (slotStart < interval.end) {
-    const slotEnd = slotStart.plus({ minutes: SLOT_DURATION_MINUTES });
-
-    if (slotEnd > interval.end) break;
-
-    slots.push({
-      start: slotStart.toISO()!,
-      end: slotEnd.toISO()!,
-    });
-
-    slotStart = slotEnd;
-  }
-
-  return slots;
+  return `${formattedHours}:${formattedMinutes}:00`; // Return as HH:MM:SS
 }
