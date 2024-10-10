@@ -7,9 +7,8 @@ import { TopNavBar } from "@/components/TopNavBar";
 
 // Define the interface for the booking data
 interface Booking {
-  starts_at: Date;
-  ends_at: Date;
-  available_bookings: number;
+  start: Date;
+  end: Date;
 }
 
 // Group bookings by date
@@ -23,24 +22,34 @@ export default function AvailableBookings() {
     new Date(),
   ); // Selected date for showing booking times
   const [availableDates, setAvailableDates] = useState<Date[]>([]); // Dates with available bookings
+  const [name, setName] = useState(""); // State for user's name
+  const [email, setEmail] = useState(""); // State for user's email
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null); // State for selected booking
 
   // Fetch bookings data inside useEffect
   useEffect(() => {
     const fetchBookings = async () => {
       try {
+        const today = new Date();
+        const oneMonthLater = new Date();
+        oneMonthLater.setMonth(today.getMonth() + 1);
+
+        // Format the dates as ISO strings
+        const start = today.toISOString(); // Today's date in ISO format
+        const end = oneMonthLater.toISOString(); // One month later in ISO format
+
         const res = await fetch(
-          `/api/available-bookings?start=2024-10-01T04:00:00.000Z&end=2024-11-01T03:59:59.999Z`,
+          `/api/available-bookings?start=${start}&end=${end}`,
         );
         const data = await res.json();
 
         // Group bookings by date and extract available dates
         const groupedBookings: GroupedBookings = data.reduce(
           (acc: GroupedBookings, booking_json: any) => {
-            const startDate = new Date(booking_json.starts_at).toDateString(); // Group by date string
+            const startDate = new Date(booking_json.start).toDateString(); // Group by date string
             const booking: Booking = {
-              starts_at: new Date(booking_json.starts_at),
-              ends_at: new Date(booking_json.ends_at),
-              available_bookings: booking_json.available_bookings,
+              start: new Date(booking_json.start),
+              end: new Date(booking_json.end),
             };
             if (!acc[startDate]) {
               acc[startDate] = [];
@@ -74,7 +83,75 @@ export default function AvailableBookings() {
     }
     return [];
   };
-  console.log(availableDates);
+
+  // Handle booking button click
+  const handleBookingClick = (booking: Booking) => {
+    const userName = prompt("Please enter your name:");
+    const userEmail = prompt("Please enter your email:");
+
+    if (userName && userEmail) {
+      setName(userName);
+      setEmail(userEmail);
+      setSelectedBooking(booking);
+
+      // Now call the function to submit the booking
+      submitBooking(userName, userEmail, booking);
+    } else {
+      alert("Name and email are required to book!");
+    }
+  };
+
+  // Submit the booking
+  const submitBooking = async (
+    name: string,
+    email: string,
+    booking: Booking,
+  ) => {
+    const bookingData = {
+      _method: "post",
+      name: name,
+      email: email,
+      start: booking.start.toISOString(),
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, // User's timezone
+      bookings: [
+        {
+          start: booking.start.toISOString(),
+          end: booking.end.toISOString(),
+        },
+      ],
+      booking_questions: [],
+      payment_id: null,
+      paypal_order_id: null,
+      stripe_confirmation_token: null,
+      "g-recaptcha-response": "", // Add Recaptcha if needed
+    };
+
+    try {
+      const response = await fetch("https://tidycal.com/bookings/1dz87zd", {
+        mode: "no-cors",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json, text/plain, */*",
+          "X-Requested-With": "XMLHttpRequest",
+          "x-xsrf-token": "your-xsrf-token-here", // Ensure you have the correct token
+        },
+        body: JSON.stringify(bookingData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert("Booking successfully submitted!");
+      } else {
+        console.error("Booking submission failed", result);
+        alert("Failed to submit booking. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting booking", error);
+      alert("An error occurred while submitting the booking.");
+    }
+  };
 
   return (
     <>
@@ -121,13 +198,14 @@ export default function AvailableBookings() {
                   key={index}
                   className="booking-button"
                   variant="secondary"
+                  onClick={() => handleBookingClick(booking)} // Handle click event
                 >
-                  {booking.starts_at.toLocaleTimeString([], {
+                  {booking.start.toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                   })}{" "}
                   -{" "}
-                  {booking.ends_at.toLocaleTimeString([], {
+                  {booking.end.toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                     timeZoneName: "short",
