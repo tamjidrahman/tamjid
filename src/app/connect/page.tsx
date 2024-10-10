@@ -33,6 +33,7 @@ export default function AvailableBookings() {
   const [topic, setTopic] = useState(""); // State for booking topic (optional)
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null); // State for selected slot
   const [dialogOpen, setDialogOpen] = useState(false); // State for controlling the dialog visibility
+  const [showSlots, setShowSlots] = useState(false); // State for controlling the slot transition
 
   // Fetch available slots data inside useEffect
   useEffect(() => {
@@ -67,6 +68,16 @@ export default function AvailableBookings() {
 
     fetchSlots(); // Call the fetch function
   }, []); // Empty dependency array means it runs once on mount
+
+  // Handle selected date change
+  useEffect(() => {
+    if (selectedDate) {
+      setShowSlots(false); // Hide slots before the transition
+      setTimeout(() => {
+        setShowSlots(true); // Show slots with transition
+      }, 100); // Delay to create the transition effect
+    }
+  }, [selectedDate]);
 
   // Get bookings (slots) for the selected date
   const getSlotsForSelectedDate = () => {
@@ -191,7 +202,13 @@ export default function AvailableBookings() {
 
             {/* Display Booking Times for the Selected Date */}
             {selectedDate && (
-              <div className="flex flex-col items-center gap-y-4 mt-8">
+              <div
+                className={`flex flex-col items-center gap-y-4 mt-8 transition-transform transform ${
+                  showSlots
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-20 opacity-0 blur-md"
+                } duration-150 ease-in-out`}
+              >
                 <h2 className="text-center">
                   {getSlotsForSelectedDate().length === 0
                     ? `No times available for ${selectedDate.toDateString()}`
