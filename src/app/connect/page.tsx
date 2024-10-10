@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
-import { TopNavBar } from "@/components/TopNavBar";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Dialog,
@@ -143,9 +142,6 @@ export default function AvailableBookings() {
 
   return (
     <>
-      <div className="flex justify-center mt-10 my-10">
-        <TopNavBar />
-      </div>
       <div className="flex flex-col items-center gap-y-8">
         <h1 className="text-4xl text-primary text-center">
           {" "}

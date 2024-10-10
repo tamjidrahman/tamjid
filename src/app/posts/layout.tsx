@@ -1,6 +1,5 @@
 "use client";
 import React, { Suspense, useEffect, useState } from "react";
-import { TopNavBar } from "@/components/TopNavBar";
 import TextLink from "@/components/text/text-link";
 import { ModeToggle } from "@/components/mode-toggle";
 
@@ -24,12 +23,6 @@ export default function PostLayout({
 
   return (
     <>
-      <section>
-        <div className="flex justify-center mt-10">
-          <TopNavBar />
-        </div>
-      </section>
-
       {isPostHomePage ? (
         children
       ) : (

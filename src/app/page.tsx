@@ -1,6 +1,5 @@
 "use client";
 
-import { TopNavBar } from "@/components/TopNavBar";
 import { ModeToggle } from "@/components/mode-toggle";
 import { SocialMediaIcons } from "@/social-media-icons";
 import Intro from "@/components/intro";
@@ -44,9 +43,6 @@ export default function Home() {
       </div>
       <div className="flex justify-center">
         <SocialMediaIcons />
-      </div>
-      <div className="flex justify-center mt-10">
-        <TopNavBar />
       </div>
       <div id="intro">
         <Intro />

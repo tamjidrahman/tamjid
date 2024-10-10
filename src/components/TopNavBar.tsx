@@ -1,8 +1,6 @@
 "use client";
 
 import * as React from "react";
-
-import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import {
   NavigationMenu,
@@ -12,19 +10,24 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { cn } from "@/lib/utils";
 import { posts } from "./postPage";
-import { TransitionLink } from "./ui/utils/TransitionLink";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
 export function TopNavBar() {
   return (
     <NavigationMenu>
       <NavigationMenuList>
+        {/* About Me Section */}
         <NavigationMenuItem>
-          <NavigationMenuTrigger>About Me</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="text-secondary">
+            About Me
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <ListItem href="/" title="About Me" className="text-primary">
@@ -40,8 +43,12 @@ export function TopNavBar() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+
+        {/* Projects Section */}
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Projects</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="text-secondary">
+            Projects
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid md:w-[400px] lg:w-[500px] text-primary gap-3 p-4 md:grid-cols-2">
               {posts.map(
@@ -65,8 +72,12 @@ export function TopNavBar() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+
+        {/* Management Section */}
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Management</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="text-secondary">
+            Management
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid md:w-[400px] lg:w-[500px] text-primary gap-3 p-4 md:grid-cols-2">
               {posts.map(
@@ -90,8 +101,12 @@ export function TopNavBar() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+
+        {/* Etc Section */}
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Etc</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="text-secondary">
+            Etc
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid md:w-[400px] lg:w-[500px] text-primary gap-3 p-4 md:grid-cols-2">
               {posts.map(
@@ -115,6 +130,22 @@ export function TopNavBar() {
               ></ListItem>
             </ul>
           </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        {/* Sign-In / User Section */}
+        <NavigationMenuItem>
+          <div className="ml-4 flex items-center">
+            <SignedIn>
+              {/* Show the user button when signed in */}
+              <UserButton />
+            </SignedIn>
+            <SignedOut>
+              {/* Show the sign-in button when signed out */}
+              <SignInButton mode="modal">
+                <Button variant="ghost">Sign In</Button>
+              </SignInButton>
+            </SignedOut>
+          </div>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
