@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "Tamjid Rahman",
   description: "Hello!",
 };
-
+export const dynamic = "force-dynamic";
 const clerkVariables = {
   colorPrimary: "hsl(40, 100%, 47%)",
   colorDanger: "hsl(0, 60%, 45%)",
