@@ -41,9 +41,7 @@ export default function AvailableBookings() {
       setLoading(true); // Set loading to true before the request
 
       try {
-        const res = await fetch(
-          `/api/slots?time_zone=America/New_York&year=2024&month=10`,
-        );
+        const res = await fetch(`/api/slots?year=2024&month=10`);
         const data: Slot[] = await res.json();
 
         // Extract the available dates from the slots

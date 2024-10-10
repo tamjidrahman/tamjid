@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { DateTime } from "luxon";
 
 // Define the interface for the new slot data structure
 interface SlotData {
@@ -19,7 +20,7 @@ interface TimeSlot {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const timeZone = searchParams.get("time_zone") || "America/New_York"; // Default to Eastern Time
+  const timeZone = "UTC";
   const year = searchParams.get("year") || new Date().getFullYear().toString();
   const month =
     searchParams.get("month") || (new Date().getMonth() + 1).toString(); // Default to current month
@@ -43,7 +44,7 @@ export async function GET(request: Request) {
     const data = await response.json();
 
     // Process the response data and return a flat list of available slots
-    const freeSlots: TimeSlot[] = extractAvailableSlots(data.slots);
+    const freeSlots: TimeSlot[] = extractAvailableSlots(data.slots, timeZone);
 
     return NextResponse.json(freeSlots);
   } catch (error) {
@@ -55,8 +56,14 @@ export async function GET(request: Request) {
   }
 }
 
+function toISOWithTimeZone(dateTimeString: string, timeZone: string): string {
+  return DateTime.fromISO(dateTimeString, { zone: timeZone }).toISO() || "";
+}
 // Function to extract available time slots from the API response as a flat list
-function extractAvailableSlots(slotsData: SlotData[]): TimeSlot[] {
+function extractAvailableSlots(
+  slotsData: SlotData[],
+  timeZone: string,
+): TimeSlot[] {
   const freeSlots: TimeSlot[] = [];
 
   for (const day of slotsData) {
@@ -64,14 +71,14 @@ function extractAvailableSlots(slotsData: SlotData[]): TimeSlot[] {
 
     for (const [_, slot] of slotEntries) {
       if (slot.is_available) {
-        // Construct valid ISO date-time strings
-        const startISO = new Date(
+        const startISO = toISOWithTimeZone(
           `${day.date}T${convertTo24Hour(slot.start_time)}`,
-        ).toISOString();
-
-        const endISO = new Date(
+          timeZone,
+        );
+        const endISO = toISOWithTimeZone(
           `${day.date}T${convertTo24Hour(slot.end_time)}`,
-        ).toISOString();
+          timeZone,
+        );
 
         freeSlots.push({
           start: startISO,
